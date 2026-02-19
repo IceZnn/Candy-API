@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label small fw-bold text-uppercase">Preço (R$)</label>
-                    <input type="text" class="form-control" id="inputPreço" name="Preço" placeholder="0.00">
+                    <input type="text" class="form-control" id="inputPreco" name="Preco" placeholder="0.00">
                 </div>
                 <div class="col-md-4">
                     <label class="form-label small fw-bold text-uppercase">Quantidade</label>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label small fw-bold text-uppercase">Alérgicos</label>
-                    <input type="text" class="form-control" id="inputAlérgicos" name="Alérgicos" placeholder="Ex: Lactose">
+                    <input type="text" class="form-control" id="inputAlergicos" name="Alergicos" placeholder="Ex: Lactose">
                 </div>
                 <div class="col-12">
                     <label class="form-label small fw-bold text-uppercase">Ingredientes</label>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-12">
                     <label class="form-label small fw-bold text-uppercase">Descrição</label>
-                    <textarea class="form-control" id="inputDescrição" name="Descrição" rows="2" placeholder="Breve descrição do doce"></textarea>
+                    <textarea class="form-control" id="inputDescrição" name="Descricao" rows="2" placeholder="Breve descrição do doce"></textarea>
                 </div>
             </div>
 

@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('home');
+//Route::get('/', function () {
+//    return view('');
+//})->name('home');
 
 Route::get('/Dashboard', function () {
     return view('dashboard');

@@ -3,11 +3,11 @@ $(document).ready(function() {
         const dadosDoce = {
             Nome: $("#inputNome").val(),
             Sabor: $("#inputSabor").val(),
-            Preco: $("#inputPreço").val(), 
+            Preco: $("#inputPreco").val(), 
             Quantidade: $("#inputQuantidade").val(),
-            Alergicos: $("#inputAlérgicos").val(),
+            Alergicos: $("#inputAlergicos").val(),
             Ingredientes: $("#inputIngredientes").val(),
-            Descricao: $("#inputDescrição").val()
+            Descricao: $("#inputDescricao").val()
         };
 
         $.ajax({

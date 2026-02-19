@@ -126,7 +126,7 @@
                     <span class="badge badge-estoque mt-2">{{ $doce->Quantidade ?? 0 }} un</span>
                 </div>
 
-                
+                    
                 <div class="info-card mt-4">
                     <div class="row g-4">
                         <div class="col-md-6">
@@ -135,13 +135,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="info-label">Preço</div>
-                            <div class="info-value fw-bold">R$ {{ number_format($doce->Preço ?? 0, 2, ',', '.') }}</div>
+                            <div class="info-value fw-bold">R$ {{ number_format($doce->Preco ?? 0, 2, ',', '.') }}</div>
                         </div>
                         <div class="col-12">
                             <div class="info-label">Alérgicos</div>
                             <div class="info-value">
-                                @if($doce->Alérgicos)
-                                    <span class="badge-alergico">{{ $doce->Alérgicos }}</span>
+                                @if($doce->Alergicos)
+                                    <span class="badge-alergico">{{ $doce->Alergicos }}</span>
                                 @else
                                     <span class="text-muted">Nenhum</span>
                                 @endif
@@ -153,7 +153,7 @@
                         </div>
                         <div class="col-12">
                             <div class="info-label">Descrição</div>
-                            <div class="info-value">{{ $doce->Descrição ?? 'Sem descrição' }}</div>
+                            <div class="info-value">{{ $doce->Descricao ?? 'Sem descrição' }}</div>
                         </div>
                         <div class="col-12">
                             <div class="info-label">Código do Produto</div>
