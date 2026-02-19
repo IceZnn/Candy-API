@@ -15,3 +15,4 @@ Route::get( '/exibe_doce/{id}',[TestController::class,'exibe_doce']);
 
 Route::get( '/todos_doces',[TestController::class,'todos_doces']);
 
+Route::put('/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
