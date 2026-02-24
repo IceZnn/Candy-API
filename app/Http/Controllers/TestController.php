@@ -121,9 +121,29 @@ public function atualiza_doce(Request $request, $id)
         $doce = DoceModel::find($id);
         
         if (!$doce) {
-            return redirect('/doces')->with('erro', 'Doce não encontrado');
+            return redirect('/Dashboard')->with('erro', 'Doce não encontrado');
         }
         
         return view('exibeDoce', compact('doce'));
     }
+    
+   public function mostrar_formulario_delete($id)
+{
+    $doce = DoceModel::find($id); 
+    
+    return view('deletaDoce', compact('doce', 'id'));
+}
+
+public function deleta_doce($id)
+{
+    try {
+        $doce = DoceModel::findOrFail($id);
+        $doce->delete();
+        
+        return redirect('/Dashboard')->with('success', 'Doce deletado com sucesso!');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Erro ao deletar doce');
+    }
+}
+
 }
