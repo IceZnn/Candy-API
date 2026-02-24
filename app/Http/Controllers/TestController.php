@@ -60,6 +60,54 @@ class TestController extends Controller
         ], 200);
     }
 
+
+    public function editar_doce($id)
+{
+    $doce = DoceModel::find($id);
+    
+    if (!$doce) {
+        return redirect('/Cadastro')->with('erro', 'Doce não encontrado');
+    }
+    
+    return view('alteraDoce', compact('doce'));
+}
+
+public function atualiza_doce(Request $request, $id)
+{
+    $request->validate([
+        'Nome' => 'required',
+        'Sabor' => 'required',
+        'Ingredientes' => 'required',
+        'Preco' => 'required',
+        'Alergicos' => 'required',
+        'Quantidade' => 'required',
+        'Descricao' => 'required',
+    ]);
+
+    try {
+        $doce = DoceModel::find($id);
+        
+        $doce->Nome = $request->Nome;
+        $doce->Sabor = $request->Sabor;
+        $doce->Ingredientes = $request->Ingredientes;
+        $doce->Preco = $request->Preco;
+        $doce->Alergicos = $request->Alergicos;
+        $doce->Quantidade = $request->Quantidade;
+        $doce->Descricao = $request->Descricao;
+        $doce->save();
+
+        return response()->json([
+            'erro' => 'n',
+            'doce' => $doce,
+        ], 200);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'erro' => 's',
+            'mensagem' => $th->getMessage()
+        ], 500);
+    }
+}
     public function todos_doces()
     {
         return response()->json([
@@ -73,9 +121,29 @@ class TestController extends Controller
         $doce = DoceModel::find($id);
         
         if (!$doce) {
-            return redirect('/doces')->with('erro', 'Doce não encontrado');
+            return redirect('/Dashboard')->with('erro', 'Doce não encontrado');
         }
         
         return view('exibeDoce', compact('doce'));
     }
+    
+   public function mostrar_formulario_delete($id)
+{
+    $doce = DoceModel::find($id); 
+    
+    return view('deletaDoce', compact('doce', 'id'));
+}
+
+public function deleta_doce($id)
+{
+    try {
+        $doce = DoceModel::findOrFail($id);
+        $doce->delete();
+        
+        return redirect('/Dashboard')->with('success', 'Doce deletado com sucesso!');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Erro ao deletar doce');
+    }
+}
+
 }

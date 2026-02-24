@@ -16,10 +16,10 @@ return new class extends Migration
             $table->text("Nome");
             $table->text("Sabor");
             $table->text("Ingredientes");
-            $table->integer("Preço");
-            $table->text("Alérgicos");
+            $table->integer("Preco");
+            $table->text("Alergicos");
             $table->integer("Quantidade");
-            $table->text("Descrição");
+            $table->text("Descricao");
             $table->timestamps();
         });
     }
