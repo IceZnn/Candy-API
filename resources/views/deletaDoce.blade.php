@@ -18,7 +18,6 @@
             background-color: var(--pastel-creme);
             font-family: 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            display: flex;
             align-items: center;
             color: var(--vinho);
         }
@@ -126,9 +125,106 @@
             color: #dc3545;
             font-weight: 600;
         }
+
+        .navbar-sweet {
+            background: rgba(74, 0, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            width: 100%
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(74, 0, 18, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #ffb3c1;
+            font-size: 28px;
+        }
+
+        .logo span {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative; 
+        }
+
+        .nav-links a:hover {
+            color: red; 
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    
     </style>
 </head>
 <body>
+    <nav class="navbar-sweet">
+    <div class="nav-container">
+        <div class="logo">
+            <span>EVERSWEET</span>
+        </div>
+        <div class="nav-links">
+            <a href="/Inicio"> Inicio</a>
+            <a href="/Dashboard"> Dashboard</a>
+            <a href="/doces"> Doces</a>
+            <a href="/Sobre"> Sobre</a>
+        </div>
+        <!-- Bagulho nem funciona kkkkkkkkkkkkkkk  mas n pode puxar o login do laravel normal(eu acho)-->
+        <div style="color: white;">
+            <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+        </div>
+    </div>
+    </nav>    
+
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -146,7 +242,7 @@
 
                     <div class="info-box">
                         <h5 class="mb-3" style="color: var(--vinho);">
-                            <i class="fas fa-candy-cane me-2"></i>Informações do Doce
+                            Informações do Doce
                         </h5>
                         
                         <div class="row">
