@@ -65,29 +65,16 @@
             text-decoration: none;
             font-weight: 500;
             padding: 8px 0;
-            position: relative;
-            transition: 0.3s;
+            position: flex; 
         }
 
         .nav-links a:hover {
-            color: white;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffb3c1;
-            transition: 0.3s;
+            color: red; 
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
-
 
         .main-content {
             flex: 1;
@@ -289,8 +276,8 @@
         }
 
         .footer {
-            background: #1a1a1a;
-            color: #999;
+            background: #370707;
+            color: #683838;
             padding: 40px 0 20px;
             margin-top: 50px;
         }
@@ -310,6 +297,12 @@
             font-size: 18px;
         }
 
+        .footer-section {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
         .footer-section p {
             line-height: 1.6;
             margin-bottom: 10px;
@@ -324,7 +317,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #333;
+            background: #ff0000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -342,8 +335,8 @@
             text-align: center;
             padding-top: 30px;
             margin-top: 30px;
-            border-top: 1px solid #333;
-            color: #666;
+            border-top: 1px solid #796363;
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
@@ -359,7 +352,7 @@
                 display: none;
             }
         }
-    </style>
+</style>
 </head>
 <body>
 
@@ -451,7 +444,7 @@
 <footer class="footer">
     <div class="footer-content">
         <div class="footer-section">
-            <h4><i class="fas fa-candy-cane" style="margin-right: 8px;"></i> EVERSWEET</h4>
+            <h4>EVERSWEET</h4>
             <p>Um dos doces artesanais da região.</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>

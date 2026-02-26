@@ -140,7 +140,7 @@ public function deleta_doce($id)
         $doce = DoceModel::findOrFail($id);
         $doce->delete();
         
-        return redirect('/Dashboard')->with('success', 'Doce deletado com sucesso!');
+        return redirect('/')->with('success', 'Doce deletado com sucesso!');
     } catch (\Exception $e) {
         return back()->with('error', 'Erro ao deletar doce');
     }

@@ -19,7 +19,7 @@
             flex-direction: column;
         }
 
-        /* NAVBAR ESTILOSA (igual do dashboard) */
+        
         .navbar {
             background: rgba(74, 0, 18, 0.95);
             backdrop-filter: blur(10px);
@@ -66,44 +66,34 @@
             text-decoration: none;
             font-weight: 500;
             padding: 8px 0;
-            position: relative;
-            transition: 0.3s;
+            position: flex;
         }
 
         .nav-links a:hover {
-            color: white;
+            color: red;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffb3c1;
-            transition: 0.3s;
-        }
+        
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* MAIN CONTENT SIMPLES */
         .main-content {
             flex: 1;
             max-width: 1200px;
             margin: 30px auto;
-            padding: 0 20px;
+            padding: 0 10px;
             width: 100%;
             text-align: center;
         }
 
+        /* Caixa do EVERSWEET central.*/
         .welcome-box {
             background: white;
             border-radius: 30px;
             padding: 60px 40px;
-            box-shadow: 0 20px 40px rgba(74, 0, 18, 0.15);
+            box-shadow: 0 20px 40px rgba(255, 100, 139, 0.19);
             margin-bottom: 40px;
         }
 
@@ -111,7 +101,6 @@
             color: #4a0012;
             font-size: 56px;
             margin-bottom: 20px;
-            letter-spacing: -1px;
         }
 
         .welcome-box p {
@@ -132,11 +121,11 @@
             text-decoration: none;
             display: inline-block;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(74, 0, 18, 0.3);
+            box-shadow: 0 5px 15px rgba(74, 0, 18, 0.47);
         }
 
         .btn:hover {
-            background: #6b1a2c;
+            background: #6b1a2c92;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(74, 0, 18, 0.4);
         }
@@ -169,14 +158,14 @@
         }
 
         .feature p {
-            color: #666;
+            color: #271313;
             line-height: 1.6;
         }
 
         
         .footer {
-            background: #1a1a1a;
-            color: #999;
+            background: #370707;
+            color: #683838;
             padding: 40px 0 20px;
             margin-top: 50px;
         }
@@ -196,6 +185,12 @@
             font-size: 18px;
         }
 
+        .footer-section {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
         .footer-section p {
             line-height: 1.6;
             margin-bottom: 10px;
@@ -210,7 +205,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #333;
+            background: #ff0000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -228,8 +223,8 @@
             text-align: center;
             padding-top: 30px;
             margin-top: 30px;
-            border-top: 1px solid #333;
-            color: #666;
+            border-top: 1px solid #796363;
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {

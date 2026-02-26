@@ -5,7 +5,7 @@ use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('inicial');
-})->name('Dashboard');
+})->name('Inicio');
 
 Route::get('/Inicio', function () {
     return view('inicial');
