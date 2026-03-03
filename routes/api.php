@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
-
+use App\Http\Controllers\UsuarioController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -16,3 +16,6 @@ Route::get( '/exibe_doce/{id}',[TestController::class,'exibe_doce']);
 Route::get( '/todos_doces',[TestController::class,'todos_doces']);
 
 Route::put('/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
+
+
+Route::post('/Cadastro_usuario', [UsuarioController::class,'cadastra_usuario']);
