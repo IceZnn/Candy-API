@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TokenUser extends Model
 {
-    protected $table = 'usuario';
-    public $timestamps = false;
+    protected $table = 'tokenuser';
+
     
     protected $fillable = [
         'token',

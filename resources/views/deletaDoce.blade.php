@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="inicial.js"></script>
     <style>
         :root {
             --vinho: #4a0012;
@@ -214,6 +216,7 @@
         </div>
         <div class="nav-links">
             <a href="/Inicio"> Inicio</a>
+            <a href="/Login">Login</a>
             <a href="/Dashboard"> Dashboard</a>
             <a href="/doces"> Doces</a>
             <a href="/Sobre"> Sobre</a>

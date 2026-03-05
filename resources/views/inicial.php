@@ -249,8 +249,9 @@
         </div>
         <div class="nav-links">
             <a href="/"> Início</a>
+            <a href="/Login">Login</a>
             <a href="/Dashboard"> Dashboard</a>
-            <a href="/Cadastro"> Cadastrar</a>
+            <a href="/Cadastro"> Cadastrar Doce</a>
             <a href="/doces"> Doces</a>
             <a href="/Sobre"> Sobre</a>
         </div>

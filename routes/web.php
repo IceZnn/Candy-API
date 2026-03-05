@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
-    return view('inicial');
-})->name('Inicio');
+    return view('login');
+})->name('Login');
 
 Route::get('/Inicio', function () {
     return view('inicial');
@@ -22,6 +22,14 @@ Route::get('/Cadastro', function () {
 Route::get('/Sobre', function () {
     return view('Sobre');
 })->name('sobre');
+
+Route::get('/Cadastro_usuario', function () {
+    return view('cadastro');
+});
+
+Route::get('/Login', function () {
+    return view('login');
+})->name('login');
 
 // crud a fazer tanto que é so especulação
 //Route::get('/doces', [TestController::class, 'todos_doces'])->name('doces.lista');
