@@ -20,6 +20,9 @@ class TestController extends Controller
         ]);
 
         try {
+
+            $usuario = $request->attributes->get('usuario');
+
             $doces = new DoceModel();
             $doces->Nome = $request->Nome;
             $doces->Sabor = $request->Sabor;
@@ -28,6 +31,7 @@ class TestController extends Controller
             $doces->Alergicos = $request->Alergicos;
             $doces->Quantidade = $request->Quantidade;
             $doces->Descricao = $request->Descricao;
+            $doces->user_id = $usuario->id;
             $doces->save();
 
             return response()->json([
@@ -36,6 +40,7 @@ class TestController extends Controller
             ], 200);
 
         } catch (\Throwable $th) {
+
             return response()->json([
                 'erro' => 's',
                 'mensagem' => $th->getMessage()
@@ -43,71 +48,85 @@ class TestController extends Controller
         }
     }
 
-    public function exibe_doce($id)
+    public function exibe_doce(Request $request, $id)
     {
-        $doce = DoceModel::find($id);
-        
+        $usuario = $request->attributes->get('usuario');
+
+        $doce = DoceModel::where('id', $id)
+                ->where('user_id', $usuario->id)
+                ->first();
+
         if (!$doce) {
             return response()->json([
                 'erro' => 's',
                 'mensagem' => 'Doce não encontrado'
             ], 404);
         }
-        
+
         return response()->json([
             'erro' => 'n',
             'doces' => $doce,
         ], 200);
     }
 
+    public function editar_doce(Request $request, $id)
+    {
+        $usuario = $request->attributes->get('usuario');
 
-    public function editar_doce($id)
-{
-    $doce = DoceModel::find($id);
-    
-    if (!$doce) {
-        return redirect('/Cadastro')->with('erro', 'Doce não encontrado');
+        $doce = DoceModel::where('id', $id)
+                ->where('user_id', $usuario->id)
+                ->first();
+
+        if (!$doce) {
+            return redirect('/Cadastro')->with('erro', 'Doce não encontrado ou sem permissão');
+        }
+
+        return view('alteraDoce', compact('doce'));
     }
-    
-    return view('alteraDoce', compact('doce'));
-}
 
-public function atualiza_doce(Request $request, $id)
-{
-    $request->validate([
-        'Nome' => 'required',
-        'Sabor' => 'required',
-        'Ingredientes' => 'required',
-        'Preco' => 'required',
-        'Alergicos' => 'required',
-        'Quantidade' => 'required',
-        'Descricao' => 'required',
-    ]);
+    public function atualiza_doce(Request $request, $id)
+    {
+        $request->validate([
+            'Nome' => 'required',
+            'Sabor' => 'required',
+            'Ingredientes' => 'required',
+            'Preco' => 'required',
+            'Alergicos' => 'required',
+            'Quantidade' => 'required',
+            'Descricao' => 'required',
+        ]);
 
-    try {
-        $doce = DoceModel::find($id);
-        
-        $doce->Nome = $request->Nome;
-        $doce->Sabor = $request->Sabor;
-        $doce->Ingredientes = $request->Ingredientes;
-        $doce->Preco = $request->Preco;
-        $doce->Alergicos = $request->Alergicos;
-        $doce->Quantidade = $request->Quantidade;
-        $doce->Descricao = $request->Descricao;
-        $doce->save();
+        try {
 
-        return response()->json([
-            'erro' => 'n',
-            'doce' => $doce,
-        ], 200);
+            $usuario = $request->attributes->get('usuario');
 
-    } catch (\Throwable $th) {
-        return response()->json([
-            'erro' => 's',
-            'mensagem' => $th->getMessage()
-        ], 500);
+            $doce = DoceModel::where('id', $id)
+                    ->where('user_id', $usuario->id)
+                    ->firstOrFail();
+
+            $doce->Nome = $request->Nome;
+            $doce->Sabor = $request->Sabor;
+            $doce->Ingredientes = $request->Ingredientes;
+            $doce->Preco = $request->Preco;
+            $doce->Alergicos = $request->Alergicos;
+            $doce->Quantidade = $request->Quantidade;
+            $doce->Descricao = $request->Descricao;
+            $doce->save();
+
+            return response()->json([
+                'erro' => 'n',
+                'doce' => $doce,
+            ], 200);
+
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'erro' => 's',
+                'mensagem' => $th->getMessage()
+            ], 500);
+        }
     }
-}
+
     public function todos_doces()
     {
         return response()->json([
@@ -115,35 +134,54 @@ public function atualiza_doce(Request $request, $id)
             'doces' => DoceModel::all(),
         ], 200);
     }
-    
-    public function exibe_doce_view($id)
+
+    public function exibe_doce_view(Request $request, $id)
     {
-        $doce = DoceModel::find($id);
-        
+        $usuario = $request->attributes->get('usuario');
+
+        $doce = DoceModel::where('id', $id)
+                ->where('user_id', $usuario->id)
+                ->first();
+
         if (!$doce) {
             return redirect('/Dashboard')->with('erro', 'Doce não encontrado');
         }
-        
+
         return view('exibeDoce', compact('doce'));
     }
-    
-   public function mostrar_formulario_delete($id)
-{
-    $doce = DoceModel::find($id); 
-    
-    return view('deletaDoce', compact('doce', 'id'));
-}
 
-public function deleta_doce($id)
-{
-    try {
-        $doce = DoceModel::findOrFail($id);
-        $doce->delete();
-        
-        return redirect('/')->with('success', 'Doce deletado com sucesso!');
-    } catch (\Exception $e) {
-        return back()->with('error', 'Erro ao deletar doce');
+    public function mostrar_formulario_delete(Request $request, $id)
+    {
+        $usuario = $request->attributes->get('usuario');
+
+        $doce = DoceModel::where('id', $id)
+                ->where('user_id', $usuario->id)
+                ->first();
+
+        if (!$doce) {
+            return redirect('/Dashboard')->with('erro', 'Sem permissão');
+        }
+
+        return view('deletaDoce', compact('doce', 'id'));
     }
-}
 
+    public function deleta_doce(Request $request, $id)
+    {
+        try {
+
+            $usuario = $request->attributes->get('usuario');
+
+            $doce = DoceModel::where('id', $id)
+                    ->where('user_id', $usuario->id)
+                    ->firstOrFail();
+
+            $doce->delete();
+
+            return redirect('/Dashboard')->with('success', 'Doce deletado com sucesso!');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'Erro ao deletar doce');
+        }
+    }
 }

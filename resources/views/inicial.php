@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
     <title>EVERSWEET</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -248,7 +249,7 @@
             <span>EVERSWEET</span>
         </div>
         <div class="nav-links">
-            <a href="/"> Início</a>
+            <a href="#"> Início</a>
             <a href="/Login">Login</a>
             <a href="/Dashboard"> Dashboard</a>
             <a href="/Cadastro"> Cadastrar Doce</a>

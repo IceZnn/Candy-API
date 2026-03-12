@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <link rel="icon" href="logo.png" type="image/png">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
@@ -479,6 +480,7 @@
             alert(res.token);
             console.log("1. Token recebido:", res.token);
             $.cookie('token', res.token, { expires: 7, path: '/' });
+            $.cookie('user_id', res.user_id, { expires: 7, path: '/' });
             showToast('Login realizado com sucesso!', 'success');
             setTimeout(() => window.location.href = '/Dashboard?token=' + res.token, 3000);
           } else {

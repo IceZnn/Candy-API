@@ -13,36 +13,39 @@ class auth_api
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->has('token')){
-            $hoje = Carbon::now();
 
-            $token = TokenUser::where('token', $request->token)
-                ->where('valido_ate','>=',$hoje)
-                ->first();
-
-            if($token){
-                $usuario = Usuario::find($token->user_id);
-
-                $request->attributes->set('usuario', $usuario);
-                $request->attributes->set('token', $token);
-                return $next($request);
-            }else{
-
-                $data=[
-                    'erro'=> 's',
-                    'msg'=> 'Token inválido ou expirado',
-                ];
-
-                return response()->json($data,401);
-            }
-
-        }else{
-            $data=[
-                'erro'=> 's',
-                'msg'=> 'Você nao enviou o token',
-            ];
-
-            return response()->json($data,401);
+        if(!$request->has('token')){
+            return response()->json([
+                'erro' => 's',
+                'msg' => 'Você nao enviou o token'
+            ],401);
         }
+
+        $hoje = Carbon::now();
+
+        $token = TokenUser::where('token', $request->token)
+            ->where('valido_ate','>=',$hoje)
+            ->first();
+
+        if(!$token){
+            return response()->json([
+                'erro'=> 's',
+                'msg'=> 'Token inválido ou expirado',
+            ],401);
+        }
+
+        $usuario = Usuario::find($token->user_id);
+
+        if(!$usuario){
+            return response()->json([
+                'erro'=> 's',
+                'msg'=> 'Usuário não encontrado'
+            ],401);
+        }
+
+        $request->attributes->set('usuario', $usuario);
+        $request->attributes->set('token', $token);
+
+        return $next($request);
     }
 }

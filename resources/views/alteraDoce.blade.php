@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVERSWEET</title>
@@ -9,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="inicial.js"></script>
     <style>
         :root {
             --vinho: #4a0012;
@@ -26,18 +26,8 @@
             min-height: 100vh;
         }
 
-        .main-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid var(--borda);
-            box-shadow: 0 8px 30px rgba(74, 0, 18, 0.05);
-        }
-
-        .title-section h1 {
-            color: var(--vinho);
-            font-weight: 400;
-            letter-spacing: -1px;
-        }
+        .main-card { background: white; border-radius: 20px; border: 1px solid var(--borda); box-shadow: 0 8px 30px rgba(74, 0, 18, 0.05); }
+        .title-section h1 { color: var(--vinho); font-weight: 400; letter-spacing: -1px; }
 
         .btn-add {
             background-color: var(--vinho);
@@ -48,11 +38,7 @@
             font-weight: 400;
             transition: all 0.3s;
         }
-
-        .btn-add:hover {
-            background-color: #ffa7a7;
-            transform: translateY(-2px);
-        }
+        .btn-add:hover { background-color: #ffa7a7; transform: translateY(-2px); }
 
         .btn-voltar {
             background-color: #6c757d;
@@ -65,30 +51,12 @@
             text-decoration: none;
             display: inline-block;
         }
+        .btn-voltar:hover { background-color: #5a6268; color: white; transform: translateY(-2px); }
 
-        .btn-voltar:hover {
-            background-color: #5a6268;
-            color: white;
-            transform: translateY(-2px);
-        }
+        .form-control { border: 1px solid var(--borda); border-radius: 8px; padding: 10px; background-color: #fff; }
+        .form-control:focus { border-color: var(--vinho); box-shadow: 0 0 0 0.25rem rgba(74, 0, 18, 0.1); }
+        .form-container { background-color: #fff; border: 1px solid var(--borda); border-radius: 15px; }
 
-        .form-control {
-            border: 1px solid var(--borda);
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #fff;
-        }
-
-        .form-control:focus {
-            border-color: var(--vinho);
-            box-shadow: 0 0 0 0.25rem rgba(74, 0, 18, 0.1);
-        }
-
-        .form-container {
-            background-color: #fff;
-            border: 1px solid var(--borda);
-            border-radius: 15px;
-        }
         .navbar-sweet {
             background: rgba(74, 0, 18, 0.95);
             backdrop-filter: blur(10px);
@@ -98,81 +66,31 @@
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(74, 0, 18, 0.3);
         }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo span { color: white; font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; padding: 8px 0; }
+        .nav-links a:hover { color: #ffb3c1; }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo i {
-            color: #ffb3c1;
-            font-size: 28px;
-        }
-
-        .logo span {
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 0;
-            position: relative; 
-        }
-
-        .nav-links a:hover {
-            color: red; 
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .main-content {
-            flex: 1;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-            width: 100%;
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } }
     </style>
 </head>
 <body>
 <nav class="navbar-sweet">
     <div class="nav-container">
-        <div class="logo">
-            <span>EVERSWEET</span>
-        </div>
+        <div class="logo"><span>EVERSWEET</span></div>
         <div class="nav-links">
-            <a href="/Inicio"> Inicio</a>
+            <a href="/Inicio">Inicio</a>
             <a href="/Login">Login</a>
-            <a href="/Dashboard"> Dashboard</a>
-            <a href="/doces"> Doces</a>
-            <a href="/Sobre"> Sobre</a>
+            <a href="/Dashboard">Dashboard</a>
+            <a href="/doces">Doces</a>
+            <a href="/Sobre">Sobre</a>
         </div>
-        <!-- Bagulho nem funciona kkkkkkkkkkkkkkk  mas n pode puxar o login do laravel normal(eu acho)-->
         <div style="color: white;">
             <i class="fas fa-user-circle" style="font-size: 24px;"></i>
         </div>
     </div>
-    </nav>
+</nav>
 
 <div class="container py-5">
     <div class="title-section text-center mb-5">
@@ -184,13 +102,13 @@
         <div class="col-lg-8">
             <div class="form-container p-4 shadow-sm">
                 <div class="d-flex align-items-center mb-4 text-uppercase fw-bold border-bottom pb-2">
-                    <i class="fas fa-edit me-2 text-danger"></i> 
+                    <i class="fas fa-edit me-2 text-danger"></i>
                     <span>Alterar Dados do Doce</span>
                 </div>
-                
+
                 <form id="editaDoceForm">
                     <input type="hidden" id="doceId" value="{{ $doce->id ?? '' }}">
-                    
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-uppercase">Nome</label>
@@ -223,7 +141,7 @@
                     </div>
 
                     <div class="d-flex gap-3 mt-4">
-                        <a href="/Cadastro" class="btn-voltar">
+                        <a href="/doces" class="btn-voltar">
                             <i class="fas fa-arrow-left me-2"></i>VOLTAR
                         </a>
                         <button type="button" class="btn btn-add flex-grow-1" id="atualizaBotao">
@@ -237,46 +155,46 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $("#atualizaBotao").click(function() {
-            const id = $("#doceId").val();
-            
-            const dadosDoce = {
-                Nome: $("#inputNome").val(),
-                Sabor: $("#inputSabor").val(),
-                Preco: $("#inputPreco").val(),
-                Quantidade: $("#inputQuantidade").val(),
-                Alergicos: $("#inputAlergicos").val(),
-                Ingredientes: $("#inputIngredientes").val(),
-                Descricao: $("#inputDescricao").val()
-            };
+$(document).ready(function () {
 
-            $.ajax({
-                url: `http://127.0.0.1:8000/api/atualiza_doce/${id}`,
-                type: "PUT",
-                data: dadosDoce,
-                success: function(res) {
-                    Swal.fire({
-                        title: "Sucesso!",
-                        text: "Doce atualizado.",
-                        icon: "success",
-                        confirmButtonColor: "#4a0012"
-                    }).then(() => {
-                        window.location.href = "/";
-                    });
-                },
-                error: function(error) {
-                    Swal.fire({
-                        title: "Erro!",
-                        text: "Deu não fiote: " + (error.responseJSON?.message),
-                        icon: "error",
-                        confirmButtonColor: "#4a0012"
-                    });
-                    console.log(error);
-                }
-            });
+    const token = $.cookie('token');
+    const id    = $('#doceId').val();
+
+    $('#atualizaBotao').click(function () {
+        $.ajax({
+            url: `/api/atualiza_doce/${id}?token=${token}`,
+            type: 'PUT',
+            data: {
+                Nome:         $('#inputNome').val(),
+                Sabor:        $('#inputSabor').val(),
+                Preco:        $('#inputPreco').val(),
+                Quantidade:   $('#inputQuantidade').val(),
+                Alergicos:    $('#inputAlergicos').val(),
+                Ingredientes: $('#inputIngredientes').val(),
+                Descricao:    $('#inputDescricao').val()
+            },
+            success: function (res) {
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: 'Doce atualizado.',
+                    icon: 'success',
+                    confirmButtonColor: '#4a0012'
+                }).then(() => {
+                    window.location.href = '/doces';
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível atualizar: ' + (error.responseJSON?.message ?? 'erro desconhecido'),
+                    icon: 'error',
+                    confirmButtonColor: '#4a0012'
+                });
+            }
         });
     });
+
+});
 </script>
 
 </body>

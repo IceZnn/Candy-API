@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('doces', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->text("Nome");
             $table->text("Sabor");
             $table->text("Ingredientes");

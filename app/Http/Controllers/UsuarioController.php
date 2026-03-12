@@ -54,27 +54,22 @@ class UsuarioController extends Controller
         TokenUser::where('user_id', $usuario->id)->delete();
 
         $token = new TokenUser();
-        $token->user_id   = $usuario->id;
-        $data             = date('Y-m-d H:i:s');
-        $tokenValue       = md5($usuario->id . $usuario->email . $data);
-        $token->token     = $tokenValue;
+        $token->user_id    = $usuario->id;
+        $data              = date('Y-m-d H:i:s');
+        $tokenValue        = md5($usuario->id . $usuario->email . $data);
+        $token->token      = $tokenValue;
         $token->valido_ate = Carbon::now()->addDays(7);
         $token->save();
 
         $response = response()->json([
-            'erro'  => 'n',
-            'data'  => 'Login realizado com sucesso.',
-            'token' => $tokenValue
+            'erro'    => 'n',
+            'data'    => 'Login realizado com sucesso.',
+            'token'   => $tokenValue,
+            'user_id' => $usuario->id,
         ], 200);
 
-        return $response->cookie(
-            'token',
-            $tokenValue,
-            10080,
-            '/',
-            null,
-            false,
-            false
-        );
+        return $response
+            ->cookie('token',   $tokenValue,   10080, '/', null, false, false)
+            ->cookie('user_id', $usuario->id,  10080, '/', null, false, false);
     }
 }

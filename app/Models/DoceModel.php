@@ -16,5 +16,6 @@ class DoceModel extends Model
         'Alergicos',
         'Quantidade',
         'Descricao',
+        'user_id',
     ];
 }
