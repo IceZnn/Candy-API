@@ -249,37 +249,6 @@
             </div>
         </form>
     </div>
-
-    <div class="main-card p-4" id="containerLista">
-        <h2 class="h4 mb-4 fw-bold">Itens Cadastrados</h2>
-        <div class="table-responsive">
-            <table class="table align-middle" id="tabelaDoces">
-                <thead>
-                    <tr>
-                        <th>Produto</th>
-                        <th>Sabor</th>
-                        <th>Preço</th>
-                        <th>Estoque</th>
-                        <th>Alérgenos</th>
-                        <th class="text-center">Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="corpoTabelaDoces">
-                    <tr id="linhaExemplo">
-                        <td class="fw-bold">Brigadeiro Gourmet</td>
-                        <td>Chocolate Belga</td>
-                        <td>R$ 7,50</td>
-                        <td><span class="badge badge-estoque">30 un</span></td>
-                        <td><span class="text-danger small">Lactose</span></td>
-                        <td class="text-center">
-                            <button class="action-btn btnEditar" data-id="1"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn btnExcluir" data-id="1"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
 </body>
 </html>

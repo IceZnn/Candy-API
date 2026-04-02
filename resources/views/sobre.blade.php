@@ -78,7 +78,7 @@
             margin-bottom: 20px;
         }
 
-        /* ── Sobre o projeto ── */
+        
         .projeto-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -119,7 +119,7 @@
         .feature-text h4 { color: white; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
         .feature-text p  { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; }
 
-        /* ── Tecnologias ── */
+        
         .tech-section { margin-bottom: 80px; text-align: center; }
         .tech-grid {
             display: flex;
@@ -145,7 +145,7 @@
         .tech-badge:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(74,0,18,0.12); }
         .tech-badge i { font-size: 16px; }
 
-        /* ── Criadores ── */
+        
         .criadores-section { margin-bottom: 80px; }
         .criadores-grid {
             display: grid;
@@ -164,7 +164,7 @@
         }
         .criador-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(74,0,18,0.13); }
         .criador-avatar {
-            width: 80px; height: 80px;
+            width: 160px; height: 160px;
             border-radius: 50%;
             background: linear-gradient(135deg, #4a0012, #7c2035);
             display: flex; align-items: center; justify-content: center;
@@ -203,7 +203,7 @@
             border-radius: 6px;
         }
 
-        /* ── Stats ── */
+        
         .stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -221,7 +221,7 @@
         .stat-box .num { font-size: 36px; font-weight: 800; color: #4a0012; letter-spacing: -1px; }
         .stat-box .lbl { font-size: 13px; color: #999; margin-top: 4px; font-weight: 500; }
 
-        /* ── Footer ── */
+        
         .footer { background: #370707; padding: 40px 0 20px; margin-top: 20px; }
         .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
         .footer-section h4 { color: white; margin-bottom: 20px; font-size: 18px; }
@@ -321,7 +321,7 @@
         </div>
     </div>
 
-    <!-- Tecnologias -->
+    
     <div class="tech-section">
         <div class="section-title">Stack</div>
         <h2 class="section-heading">Tecnologias utilizadas</h2>
@@ -337,7 +337,7 @@
         </div>
     </div>
 
-    <!-- Criadores -->
+    
     <div class="criadores-section">
         <div class="section-title">Time</div>
         <h2 class="section-heading">Quem fez o EVERSWEET</h2>

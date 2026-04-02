@@ -374,7 +374,7 @@ $(document).ready(function () {
             const eDono = userId && d.user_id === userId;
 
             const badgeDono = eDono
-                ? `<span class="badge-dono"><i class="fas fa-bag-shopping"></i> Seu doce</span>`
+                ? ``
                 : '';
 
             const btnEditar = (eDono && token)
@@ -399,7 +399,7 @@ $(document).ready(function () {
                         <div class="descricao">${d.Descricao}</div>
                         <div class="card-meta">
                             <span class="preco">R$ ${parseFloat(d.Preco).toFixed(2)}</span>
-                            <span class="qtd"><i class="fas fa-cubes" style="margin-right:4px"></i>${d.Quantidade} un.</span>
+                            <span class="qtd">${d.Quantidade} un.</span>
                         </div>
                         <div class="alergicos">
                             <i class="fas fa-exclamation-triangle"></i>
