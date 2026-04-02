@@ -3,294 +3,316 @@
 <head>
     <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVERSWEET</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --vinho: #4a0012;
+            --vinho-claro: #6b1a2c;
+            --rosa-suave: #ffb3c1;
+            --creme: #fff9f5;
+            --borda: #ead1d1;
+            --texto: #2d0a12;
         }
 
         body {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 100%);
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background-color: var(--creme);
+            font-family: 'DM Sans', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
-        
+        /* ── NAVBAR ── */
         .navbar {
-            background: rgba(74, 0, 18, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            background: rgba(74, 0, 18, 0.97);
+            backdrop-filter: blur(16px);
+            padding: 0 2.5rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(74, 0, 18, 0.3);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
+            box-shadow: 0 2px 30px rgba(74, 0, 18, 0.25);
+            height: 68px;
             display: flex;
             align-items: center;
-            gap: 10px;
         }
-
-        .logo i {
-            color: #ffb3c1;
-            font-size: 28px;
-        }
-
-        .logo span {
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
+        .nav-container { max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .logo span { color: white; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 32px; }
         .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
+            font-size: 13px;
             font-weight: 500;
-            padding: 8px 0;
-            position: flex;
+            letter-spacing: 0.5px;
+            padding: 4px 0;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
         }
+        .nav-links a:hover { color: var(--rosa-suave); border-color: var(--rosa-suave); }
+        .nav-user { color: rgba(255,255,255,0.6); font-size: 22px; cursor: pointer; transition: color .2s; }
+        .nav-user:hover { color: var(--rosa-suave); }
 
-        .nav-links a:hover {
-            color: red;
-        }
-
-        
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .main-content {
-            flex: 1;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 10px;
-            width: 100%;
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 100px 20px 90px;
             text-align: center;
         }
 
-        /* Caixa do EVERSWEET central.*/
-        .welcome-box {
-            background: white;
-            border-radius: 30px;
-            padding: 60px 40px;
-            box-shadow: 0 20px 40px rgba(255, 100, 139, 0.19);
-            margin-bottom: 40px;
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,179,193,0.22) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 10% 90%, rgba(74,0,18,0.07) 0%, transparent 60%);
+            pointer-events: none;
         }
 
-        .welcome-box h1 {
-            color: #4a0012;
-            font-size: 56px;
-            margin-bottom: 20px;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(74,0,18,0.07);
+            border: 1px solid var(--borda);
+            color: var(--vinho);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 28px;
         }
 
-        .welcome-box p {
-            color: #666;
-            font-size: 20px;
-            max-width: 600px;
-            margin: 0 auto 30px;
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(52px, 8vw, 96px);
+            font-weight: 700;
+            color: var(--vinho);
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
         }
 
-        .btn {
-            background: #4a0012;
+        .hero h1 em {
+            font-style: italic;
+            color: #a0293e;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #7a4050;
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.65;
+            font-weight: 300;
+        }
+
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary-hero {
+            background: var(--vinho);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 15px 38px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(74, 0, 18, 0.47);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .25s;
+            box-shadow: 0 8px 24px rgba(74, 0, 18, 0.3);
+        }
+        .btn-primary-hero:hover { background: var(--vinho-claro); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(74, 0, 18, 0.4); color: white; }
+
+        .btn-outline-hero {
+            background: transparent;
+            color: var(--vinho);
+            border: 1.5px solid var(--vinho);
+            padding: 15px 38px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .25s;
+        }
+        .btn-outline-hero:hover { background: var(--vinho); color: white; transform: translateY(-2px); }
+
+        /* ── DECORATIVE DIVIDER ── */
+        .divider {
+            text-align: center;
+            color: var(--borda);
+            font-size: 22px;
+            letter-spacing: 8px;
+            margin: 10px 0 60px;
         }
 
-        .btn:hover {
-            background: #6b1a2c92;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(74, 0, 18, 0.4);
+        /* ── FEATURES ── */
+        .features-section { max-width: 1100px; margin: 0 auto; padding: 0 20px 90px; }
+
+        .section-label {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #c06070;
+            margin-bottom: 12px;
         }
 
-        .features {
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            color: var(--vinho);
+            margin-bottom: 56px;
+            letter-spacing: -0.5px;
+        }
+
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 40px;
+            gap: 24px;
         }
 
-        .feature {
+        .feature-card {
             background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(74, 0, 18, 0.1);
-            border: 1px solid #ffd7d7;
+            border-radius: 24px;
+            padding: 36px 28px;
+            border: 1px solid var(--borda);
+            box-shadow: 0 4px 20px rgba(74,0,18,0.05);
+            transition: transform .25s, box-shadow .25s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature i {
-            font-size: 48px;
-            color: #4a0012;
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--vinho), var(--rosa-suave));
+            opacity: 0;
+            transition: opacity .25s;
+        }
+
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(74,0,18,0.1); }
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, #fff0f3, #ffe4e8);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            color: var(--vinho);
             margin-bottom: 20px;
         }
 
-        .feature h3 {
-            color: #4a0012;
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--texto);
             margin-bottom: 10px;
-            font-size: 22px;
         }
 
-        .feature p {
-            color: #271313;
-            line-height: 1.6;
-        }
+        .feature-card p { color: #8a5060; font-size: 14px; line-height: 1.7; font-weight: 300; }
 
         
-        .footer {
-            background: #370707;
-            color: #683838;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .footer-section h4 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .footer-section {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 17px;
-        }
-
-        .footer-section p {
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
+        .footer { background: #2a0008; color: #7a4050; padding: 56px 0 28px; margin-top: auto; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+        .footer h4 { font-family: 'Playfair Display', serif; color: white; font-size: 17px; margin-bottom: 18px; }
+        .footer p { font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+        .footer a { color: #7a4050; text-decoration: none; transition: color .2s; }
+        .footer a:hover { color: var(--rosa-suave); }
+        .social-links { display: flex; gap: 12px; margin-top: 4px; }
         .social-links a {
-            width: 40px;
-            height: 40px;
+            width: 38px; height: 38px;
             border-radius: 50%;
-            background: #ff0000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.07);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 14px;
+            transition: all .2s;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .social-links a:hover {
-            background: #4a0012;
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
-            border-top: 1px solid #796363;
-            color: #ffffff;
-        }
+        .social-links a:hover { background: var(--vinho); border-color: var(--vinho); transform: translateY(-2px); }
+        .footer-bottom { text-align: center; padding-top: 28px; margin-top: 28px; border-top: 1px solid #4a1520; color: #4a2030; font-size: 12px; letter-spacing: 0.5px; }
 
         @media (max-width: 768px) {
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                display: none;
-            }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
+<body>
+
 <nav class="navbar">
     <div class="nav-container">
-        <div class="logo">
-            <span>EVERSWEET</span>
-        </div>
+        <div class="logo"><span>EVERSWEET</span></div>
         <div class="nav-links">
-            <a href="#"> Início</a>
+            <a href="#">Início</a>
             <a href="/Login">Login</a>
-            <a href="/Dashboard"> Dashboard</a>
-            <a href="/Cadastro"> Cadastrar Doce</a>
-            <a href="/doces"> Doces</a>
-            <a href="/Sobre"> Sobre</a>
+            <a href="/Dashboard">Dashboard</a>
+            <a href="/Cadastro">Cadastrar Doce</a>
+            <a href="/doces">Doces</a>
+            <a href="/Sobre">Sobre</a>
         </div>
-        <div style="color: white;">
-            <i class="fas fa-user-circle" style="font-size: 24px;"></i>
-        </div>
+        <i class="fas fa-user-circle nav-user"></i>
     </div>
 </nav>
 
-<main class="main-content">
-    <div class="welcome-box">
-        <h1>EVERSWEET</h1>
-        <p>Os melhores doces artesanais você encontra aqui! Feitos com amor e os melhores ingredientes.</p>
-        <a href="/doces" class="btn">
-            Ver Doces
-        </a>
-    </div>
+<main>
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-badge"> Artesanal E Feito com Amor</div>
+        <h1>Ever<em>sweet</em></h1>
+        <p>Os melhores doces artesanais você encontra aqui. Feitos com dedicação e ingredientes selecionados.</p>
+        <div class="hero-actions">
+            <a href="/doces" class="btn-primary-hero"> Ver Catálogo</a>
+            <a href="/Sobre" class="btn-outline-hero">Sobre nós</a>
+        </div>
+    </section>
 
-    <div class="features">
-        <div class="feature">
-            <h3>Feito com dedicação</h3>
-            <p>Só que quero dinheiro</p>
+    <section class="features-section">
+        <p class="section-label">Por que nos escolher</p>
+        <h2 class="section-title">Feito diferente, com propósito</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Feito com Dedicação</h3>
+                <p>Cada doce é preparado à mão, com atenção aos detalhes e ingredientes de qualidade superior.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Entrega Rápida</h3>
+                <p>Somos tão rápidos que até o Flash pede açúcar emprestado. Sua encomenda chega quentinha.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Qualidade Garantida</h3>
+                <p>Ingredientes selecionados, receitas aperfeiçoadas e um cuidado que você sente no primeiro mordida.</p>
+            </div>
         </div>
-        <div class="feature">
-            <h3>Entrega Rápida</h3>
-            <p>Flash só é rápido por que nois fornece o açucar</p>
-        </div>
-        <div class="feature">
-            <h3>Qualidade</h3>
-            <p>Um dos melhores doces.</p>
-        </div>
-    </div>
+    </section>
 </main>
 
 <footer class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h4> EVERSWEET</h4>
+    <div class="footer-inner">
+        <div>
+            <h4>EVERSWEET</h4>
             <p>Os melhores doces artesanais da região. Feitos com amor e ingredientes selecionados.</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
@@ -298,8 +320,7 @@
                 <a href="#"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-        
-        <div class="footer-section">
+        <div>
             <h4>Links Rápidos</h4>
             <p><a href="/">Início</a></p>
             <p><a href="/Dashboard">Dashboard</a></p>
@@ -307,18 +328,14 @@
             <p><a href="/doces">Catálogo</a></p>
             <p><a href="/Sobre">Sobre Nós</a></p>
         </div>
-        
-        <div class="footer-section">
+        <div>
             <h4>Contato</h4>
-            <p> (15) 99999-9999</p>
-            <p> contato@eversweet.com</p>
-            <p> São Paulo, SP</p>
+            <p><i class="fas fa-phone" style="margin-right:8px;opacity:.5"></i>(15) 99999-9999</p>
+            <p><i class="fas fa-envelope" style="margin-right:8px;opacity:.5"></i>contato@eversweet.com</p>
+            <p><i class="fas fa-map-marker-alt" style="margin-right:8px;opacity:.5"></i>São Paulo, SP</p>
         </div>
     </div>
-    
-    <div class="footer-bottom">
-        <p> 2026 EVERSWEET - Nenhum direito reservado </p>
-    </div>
+    <div class="footer-bottom">© 2026 EVERSWEET — Nenhum direito reservado</div>
 </footer>
 
 </body>

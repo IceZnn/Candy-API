@@ -138,10 +138,8 @@ class TestController extends Controller
     public function exibe_doce_view(Request $request, $id)
     {
         $usuario = $request->attributes->get('usuario');
-
-        $doce = DoceModel::where('id', $id)
-                ->where('user_id', $usuario->id)
-                ->first();
+        
+        $doce = DoceModel::where('id', $id)->first();
 
         if (!$doce) {
             return redirect('/Dashboard')->with('erro', 'Doce não encontrado');
