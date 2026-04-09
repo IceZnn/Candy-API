@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DoceModel;
 
+
 class TestController extends Controller
 {
     public function salva_doce(Request $request)
@@ -182,4 +183,5 @@ class TestController extends Controller
             return back()->with('error', 'Erro ao deletar doce');
         }
     }
+    
 }

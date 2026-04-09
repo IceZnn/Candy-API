@@ -30,7 +30,8 @@ class UsuarioController extends Controller
 
             return response()->json([
                 'erro' => 'n',
-                'data' => 'Usuário cadastrado com sucesso.'
+                'data' => 'Usuário cadastrado com sucesso.',
+                'usuario' => $usuario
             ], 201);
 
         }catch(\Throwable $th){

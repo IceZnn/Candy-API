@@ -604,8 +604,9 @@ $(document).ready(function () {
             });
         }
     });
-
-    
+    $('#btnPdf').on('click', function () {
+    window.open('/api/exportar-pdf', '_blank');
+    });
 });
 </script>
 
