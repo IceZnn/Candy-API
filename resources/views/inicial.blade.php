@@ -237,8 +237,8 @@
         .footer { background: #2a0008; color: #7a4050; padding: 56px 0 28px; margin-top: auto; }
         .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
         .footer h4 { font-family: 'Playfair Display', serif; color: white; font-size: 17px; margin-bottom: 18px; }
-        .footer p { font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
-        .footer a { color: #7a4050; text-decoration: none; transition: color .2s; }
+        .footer p { color: #a8a8a8;font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+        .footer a { color: #a8a8a8; text-decoration: none; transition: color .2s; }
         .footer a:hover { color: var(--rosa-suave); }
         .social-links { display: flex; gap: 12px; margin-top: 4px; }
         .social-links a {

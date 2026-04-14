@@ -369,14 +369,14 @@
     }
 
     .footer-section p {
-      color: rgba(255,255,255,0.55);
+      color: #a8a8a8;
       line-height: 1.7;
       font-size: 14px;
       margin-bottom: 6px;
     }
 
     .footer-section a {
-      color: rgba(255,255,255,0.55);
+      color: #a8a8a8;
       text-decoration: none;
       transition: color .2s;
     }

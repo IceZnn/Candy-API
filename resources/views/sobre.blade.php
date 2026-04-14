@@ -4,7 +4,7 @@
     <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVERSWEET - Sobre</title>
+    <title>EVERSWEET</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -410,14 +410,14 @@
         }
 
         .footer-section p {
-            color: rgba(255,255,255,0.55);
+            color: #a8a8a8;
             line-height: 1.6;
             margin-bottom: 10px;
             font-size: 13px;
         }
 
         .footer-section a {
-            color: rgba(255,255,255,0.55);
+            color: #a8a8a8;
             text-decoration: none;
             transition: color .2s;
         }
