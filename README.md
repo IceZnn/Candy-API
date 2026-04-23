@@ -85,4 +85,8 @@ Candy-API/
 ## 👨‍💻 Autor
 
 Kauã S. Rodrigues
+
+
+## 👨‍💻 Autor
+
 Kauan V. Bonome Da Silva
