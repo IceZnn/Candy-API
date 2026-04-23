@@ -2,39 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\LimparCacheDoces;
 use Illuminate\Http\Request;
 use App\Models\DoceModel;
 use Illuminate\Support\Facades\Cache;
 
 class TestController extends Controller
 {
+    private const TTL_LISTA   = 30;
+    private const TTL_DETALHE = 60;
+
+    private function keyTodos(): string
+    {
+        return 'doces.todos';
+    }
+
+    private function keyDoce(int $id): string
+    {
+        return "doces.{$id}";
+    }
+
+    private function keyDoceUsuario(int $id, int $userId): string
+    {
+        return "doces.{$id}.user.{$userId}";
+    }
+
     public function salva_doce(Request $request)
     {
         $request->validate([
             'Nome'         => 'required',
             'Sabor'        => 'required',
             'Ingredientes' => 'required',
-            'Preco'        => 'required',
+            'Preco'        => 'required|numeric|min:0',
             'Alergicos'    => 'required',
-            'Quantidade'   => 'required',
+            'Quantidade'   => 'required|integer|min:0',
             'Descricao'    => 'required',
         ]);
 
         try {
             $usuario = $request->attributes->get('usuario');
 
-            $doce = new DoceModel();
-            $doce->Nome         = $request->Nome;
-            $doce->Sabor        = $request->Sabor;
-            $doce->Ingredientes = $request->Ingredientes;
-            $doce->Preco        = $request->Preco;
-            $doce->Alergicos    = $request->Alergicos;
-            $doce->Quantidade   = $request->Quantidade;
-            $doce->Descricao    = $request->Descricao;
-            $doce->user_id      = $usuario->id;
-            $doce->save();
+            DoceModel::create([
+                'Nome'         => $request->Nome,
+                'Sabor'        => $request->Sabor,
+                'Ingredientes' => $request->Ingredientes,
+                'Preco'        => $request->Preco,
+                'Alergicos'    => $request->Alergicos,
+                'Quantidade'   => $request->Quantidade,
+                'Descricao'    => $request->Descricao,
+                'user_id'      => $usuario->id,
+            ]);
 
-            Cache::forget('todos_doces');
+            LimparCacheDoces::dispatch(null, $usuario->id);
 
             return redirect('/doces')->with('sucesso', 'Doce cadastrado com sucesso!');
 
@@ -47,32 +66,28 @@ class TestController extends Controller
     {
         $usuario = $request->attributes->get('usuario');
 
-        $doce = Cache::remember("doce.{$id}.user.{$usuario->id}", now()->addMinutes(30), function () use ($id, $usuario) {
+        $doce = Cache::remember($this->keyDoceUsuario($id, $usuario->id), now()->addMinutes(self::TTL_DETALHE), function () use ($id, $usuario) {
             return DoceModel::where('id', $id)
                 ->where('user_id', $usuario->id)
                 ->first();
         });
 
         if (!$doce) {
-            return response()->json([
-                'erro' => 's',
-                'mensagem' => 'Doce não encontrado'
-            ], 404);
+            return response()->json(['erro' => 's', 'mensagem' => 'Doce não encontrado'], 404);
         }
 
-        return response()->json([
-            'erro'  => 'n',
-            'doces' => $doce,
-        ], 200);
+        return response()->json(['erro' => 'n', 'doces' => $doce], 200);
     }
 
     public function editar_doce(Request $request, $id)
     {
         $usuario = $request->attributes->get('usuario');
 
-        $doce = DoceModel::where('id', $id)
+        $doce = Cache::remember($this->keyDoceUsuario($id, $usuario->id), now()->addMinutes(self::TTL_DETALHE), function () use ($id, $usuario) {
+            return DoceModel::where('id', $id)
                 ->where('user_id', $usuario->id)
                 ->first();
+        });
 
         if (!$doce) {
             return redirect('/doces')->with('erro', 'Doce não encontrado ou sem permissão');
@@ -87,9 +102,9 @@ class TestController extends Controller
             'Nome'         => 'required',
             'Sabor'        => 'required',
             'Ingredientes' => 'required',
-            'Preco'        => 'required',
+            'Preco'        => 'required|numeric|min:0',
             'Alergicos'    => 'required',
-            'Quantidade'   => 'required',
+            'Quantidade'   => 'required|integer|min:0',
             'Descricao'    => 'required',
         ]);
 
@@ -97,20 +112,20 @@ class TestController extends Controller
             $usuario = $request->attributes->get('usuario');
 
             $doce = DoceModel::where('id', $id)
-                    ->where('user_id', $usuario->id)
-                    ->firstOrFail();
+                ->where('user_id', $usuario->id)
+                ->firstOrFail();
 
-            $doce->Nome         = $request->Nome;
-            $doce->Sabor        = $request->Sabor;
-            $doce->Ingredientes = $request->Ingredientes;
-            $doce->Preco        = $request->Preco;
-            $doce->Alergicos    = $request->Alergicos;
-            $doce->Quantidade   = $request->Quantidade;
-            $doce->Descricao    = $request->Descricao;
-            $doce->save();
+            $doce->update([
+                'Nome'         => $request->Nome,
+                'Sabor'        => $request->Sabor,
+                'Ingredientes' => $request->Ingredientes,
+                'Preco'        => $request->Preco,
+                'Alergicos'    => $request->Alergicos,
+                'Quantidade'   => $request->Quantidade,
+                'Descricao'    => $request->Descricao,
+            ]);
 
-            Cache::forget("doce.{$id}.user.{$usuario->id}");
-            Cache::forget('todos_doces');
+            LimparCacheDoces::dispatch($id, $usuario->id);
 
             return redirect('/doces')->with('sucesso', 'Doce atualizado com sucesso!');
 
@@ -121,21 +136,18 @@ class TestController extends Controller
 
     public function todos_doces()
     {
-        $doces = Cache::remember('todos_doces', now()->addMinutes(30), function () {
+        $doces = Cache::remember($this->keyTodos(), now()->addMinutes(self::TTL_LISTA), function () {
+            \Log::info('🔥 CACHE MISS - Buscando do banco');
             return DoceModel::all();
         });
 
-        return response()->json([
-            'erro'  => 'n',
-            'doces' => $doces,
-        ], 200);
+        \Log::info('📦 CACHE HIT - Retornando do cache');
+        return response()->json(['erro' => 'n', 'doces' => $doces], 200);
     }
 
     public function exibe_doce_view(Request $request, $id)
     {
-        $usuario = $request->attributes->get('usuario');
-
-        $doce = Cache::remember("doce.view.{$id}", now()->addMinutes(30), function () use ($id) {
+        $doce = Cache::remember($this->keyDoce($id), now()->addMinutes(self::TTL_DETALHE), function () use ($id) {
             return DoceModel::where('id', $id)->first();
         });
 
@@ -150,9 +162,11 @@ class TestController extends Controller
     {
         $usuario = $request->attributes->get('usuario');
 
-        $doce = DoceModel::where('id', $id)
+        $doce = Cache::remember($this->keyDoceUsuario($id, $usuario->id), now()->addMinutes(self::TTL_DETALHE), function () use ($id, $usuario) {
+            return DoceModel::where('id', $id)
                 ->where('user_id', $usuario->id)
                 ->first();
+        });
 
         if (!$doce) {
             return redirect('/doces')->with('erro', 'Sem permissão');
@@ -167,14 +181,12 @@ class TestController extends Controller
             $usuario = $request->attributes->get('usuario');
 
             $doce = DoceModel::where('id', $id)
-                    ->where('user_id', $usuario->id)
-                    ->firstOrFail();
+                ->where('user_id', $usuario->id)
+                ->firstOrFail();
 
             $doce->delete();
 
-            Cache::forget("doce.{$id}.user.{$usuario->id}");
-            Cache::forget("doce.view.{$id}");
-            Cache::forget('todos_doces');
+            LimparCacheDoces::dispatch($id, $usuario->id);
 
             return redirect('/doces')->with('sucesso', 'Doce deletado com sucesso!');
 
