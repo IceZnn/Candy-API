@@ -7,6 +7,7 @@ use App\Models\TokenUser;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Carbon\Carbon;
+use App\Jobs\EnviarEmail;
 
 class UsuarioController extends Controller
 {
@@ -72,5 +73,19 @@ class UsuarioController extends Controller
         return $response
             ->cookie('token',   $tokenValue,   10080, '/', null, false, false)
             ->cookie('user_id', $usuario->id,  10080, '/', null, false, false);
+    }
+
+    public function testa_email($id_usuario)
+    {
+        $usuario = Usuario::find($id_usuario);
+
+        EnviarEmail::dispatch($usuario);
+
+        $data = [
+            'message' => 'Email enviado para a fila de processamento',
+            'usuario' => $usuario
+        ];
+
+        return response()->json($data);
     }
 }

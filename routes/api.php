@@ -21,7 +21,8 @@ Route::post('/Cadastro_usuario', [UsuarioController::class,'cadastra_usuario']);
 
 Route::post('/Login', [UsuarioController::class, 'login']);
 
-//Coisas que precisam de token!
+Route::get('/testa-email/{id_usuario}', [UsuarioController::class, 'testa_email']);
+//Coisas que precisam de token
 
 Route::middleware(auth_api::class)->group(function () {
 
