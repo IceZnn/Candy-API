@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -7,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Usuario;
+use Illuminate\Mail\Message;
 
 class EnviarEmail implements ShouldQueue
 {
@@ -21,8 +23,11 @@ class EnviarEmail implements ShouldQueue
 
     public function handle(): void
     {
-        Mail::raw("Bem vindo " . $this->usuario->nome, function($message) {
-            $message->to($this->usuario->email)->subject('Bem vindo!');
+        // Envia o e-mail usando a view Blade
+        Mail::send('email.bemvindo', ['usuario' => $this->usuario], function (Message $message) {
+            $message->to($this->usuario->email, $this->usuario->nome)
+                    ->subject('🍬 Bem-vindo à EVERSWEET! 🎉')
+                    ->from('contato@eversweet.com', 'EVERSWEET Doces Artesanais');
         });
     }
 }
