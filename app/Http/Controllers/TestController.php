@@ -136,7 +136,7 @@ class TestController extends Controller
 
     public function todos_doces()
     {
-        $doces = Cache::remember($this->keyTodos(), now()->addMinutes(self::TTL_LISTA), function () {
+        $doces = Cache::rememberForever($this->keyTodos(), function () {
             \Log::info('🔥 CACHE MISS - Buscando do banco');
             return DoceModel::all();
         });

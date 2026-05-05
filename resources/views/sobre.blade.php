@@ -496,8 +496,11 @@
             <a href="/Cadastro">Cadastrar Doce</a>
             <a href="/doces">Doces</a>
             <a href="/Sobre">Sobre</a>
+            
         </div>
-        <i class="fas fa-user-circle nav-user"></i>
+        <a href="/Perfil">
+            <i class="fas fa-user-circle nav-user"></i>
+        </a>
     </div>
 </nav>
 
@@ -571,6 +574,7 @@
             <span class="tech-badge"><i class="fab fa-html5"></i> HTML & CSS</span>
             <span class="tech-badge"><i class="fas fa-cookie-bite"></i> jQuery Cookie</span>
             <span class="tech-badge"><i class="fas fa-key"></i> Auth por Token</span>
+            <span class="tech-badge"><i class="fas fa-key"></i> MailTrap</span>
         </div>
     </div>
 

@@ -36,7 +36,9 @@ Route::get('/Login', function () {
     return view('login');
 })->name('login');
 
-
+Route::get('/Perfil', function () {
+    return view('perfil');
+});
 /* TOKEN */
 
 Route::middleware(auth_api::class)->group(function () {

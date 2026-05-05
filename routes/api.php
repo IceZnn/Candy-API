@@ -34,5 +34,9 @@ Route::delete('/deleta_doce/{id}', [TestController::class, 'deleta_doce']);
 
 Route::put('/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
 
+Route::get('/perfil',[UsuarioController::class, 'exibe_perfil']);
 
+Route::put('/perfil',[UsuarioController::class, 'atualiza_perfil']);
+
+Route::put('/perfil/senha',[UsuarioController::class, 'atualiza_senha']);
 });

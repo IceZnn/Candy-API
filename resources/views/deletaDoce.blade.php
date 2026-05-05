@@ -142,7 +142,9 @@
             <a href="/doces">Doces</a>
             <a href="/Sobre">Sobre</a>
         </div>
-        <i class="fas fa-user-circle nav-user"></i>
+        <a href="/Perfil">
+            <i class="fas fa-user-circle nav-user"></i>
+        </a>
     </div>
 </nav>
 

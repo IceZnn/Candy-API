@@ -153,7 +153,7 @@
         }
         .btn-outline-hero:hover { background: var(--vinho); color: white; transform: translateY(-2px); }
 
-        /* ── DECORATIVE DIVIDER ── */
+        
         .divider {
             text-align: center;
             color: var(--borda);
@@ -162,7 +162,7 @@
             margin: 10px 0 60px;
         }
 
-        /* ── FEATURES ── */
+        
         .features-section { max-width: 1100px; margin: 0 auto; padding: 0 20px 90px; }
 
         .section-label {
@@ -273,7 +273,9 @@
             <a href="/doces">Doces</a>
             <a href="/Sobre">Sobre</a>
         </div>
-        <i class="fas fa-user-circle nav-user"></i>
+        <a href="/Perfil">
+            <i class="fas fa-user-circle nav-user"></i>
+        </a>
     </div>
 </nav>
 

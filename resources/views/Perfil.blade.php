@@ -76,20 +76,16 @@
       transition: color .2s, border-color .2s;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover, .nav-links a.active {
       color: var(--rosa-suave);
       border-color: var(--rosa-suave);
     }
 
     .nav-user {
-      color: rgba(255,255,255,0.6);
+      color: var(--rosa-suave);
       font-size: 22px;
       cursor: pointer;
       transition: color .2s;
-    }
-
-    .nav-user:hover {
-      color: var(--rosa-suave);
     }
 
     .main-content {
@@ -117,7 +113,7 @@
     }
 
     .welcome-card::before {
-      content: '🍫';
+      content: '🍬';
       position: absolute;
       right: 20px;
       bottom: -20px;
@@ -136,6 +132,28 @@
     .welcome-card p {
       font-size: 15px;
       opacity: 0.85;
+    }
+
+    .avatar-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vinho) 0%, var(--vinho-claro) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(74,0,18,0.25);
+      border: 3px solid var(--borda);
     }
 
     .form-card {
@@ -186,7 +204,8 @@
 
     input[type="email"],
     input[type="password"],
-    input[type="text"] {
+    input[type="text"],
+    input[type="tel"] {
       width: 100%;
       background: #fff;
       border: 1.5px solid var(--borda);
@@ -199,18 +218,25 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    input::placeholder {
-      color: #c9a0a8;
+    input[readonly] {
+      background: #fdf6f7;
+      cursor: default;
+      color: #7a3a4a;
     }
+
+    input::placeholder { color: #c9a0a8; }
 
     input:focus {
       border-color: var(--vinho);
       box-shadow: 0 0 0 3px rgba(74, 0, 18, 0.08);
     }
 
-    .input-wrap:focus-within i {
-      color: var(--vinho);
+    input[readonly]:focus {
+      border-color: var(--borda);
+      box-shadow: none;
     }
+
+    .input-wrap:focus-within i { color: var(--vinho); }
 
     input.is-invalid {
       border-color: #e53e3e !important;
@@ -224,11 +250,33 @@
       margin-top: 5px;
     }
 
-    .field-error.show {
-      display: block;
+    .field-error.show { display: block; }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.5rem 0 1.2rem;
     }
 
-    .btn-login {
+    .section-divider span {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #c4748a;
+      white-space: nowrap;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--borda);
+    }
+
+    .btn-salvar {
       width: 100%;
       padding: 15px;
       background: var(--vinho);
@@ -245,20 +293,38 @@
       margin-top: 0.8rem;
     }
 
-    .btn-login:hover {
+    .btn-salvar:hover {
       background: var(--vinho-claro);
       transform: translateY(-2px);
       box-shadow: 0 10px 28px rgba(74, 0, 18, 0.35);
     }
 
-    .btn-login:active {
-      transform: translateY(0);
-    }
+    .btn-salvar:active { transform: translateY(0); }
 
-    .btn-login:disabled {
+    .btn-salvar:disabled {
       opacity: 0.65;
       cursor: not-allowed;
       transform: none;
+    }
+
+    .btn-outline {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1.5px solid var(--borda);
+      border-radius: 50px;
+      color: var(--vinho);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .25s;
+      margin-top: 0.6rem;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--vinho);
+      background: rgba(74,0,18,0.04);
     }
 
     .spinner {
@@ -272,46 +338,8 @@
       margin: 0 auto;
     }
 
-    .btn-login.loading .btn-text {
-      display: none;
-    }
-
-    .btn-login.loading .spinner {
-      display: block;
-    }
-
-    .form-footer {
-      text-align: center;
-      margin-top: 1.2rem;
-      font-size: 14px;
-      color: #888;
-    }
-
-    .form-footer a {
-      color: var(--vinho);
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .form-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .alert-erro {
-      display: none;
-      background: #fff5f5;
-      border: 1.5px solid #fca5a5;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #991b1b;
-      margin-bottom: 1.2rem;
-      text-align: center;
-    }
-
-    .alert-erro.show {
-      display: block;
-    }
+    .btn-salvar.loading .btn-text { display: none; }
+    .btn-salvar.loading .spinner { display: block; }
 
     .toast {
       position: fixed;
@@ -332,21 +360,10 @@
       box-shadow: 0 20px 50px rgba(74, 0, 18, 0.15);
     }
 
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .toast.success {
-      border-color: #10b981;
-    }
-
-    .toast.error {
-      border-color: #e53e3e;
-    }
-
-    .toast-icon {
-      font-size: 18px;
-    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { border-color: #10b981; }
+    .toast.error   { border-color: #e53e3e; }
+    .toast-icon    { font-size: 18px; }
 
     footer {
       background: var(--vinho);
@@ -384,9 +401,7 @@
       transition: color .2s;
     }
 
-    .footer-section a:hover {
-      color: var(--rosa-suave);
-    }
+    .footer-section a:hover { color: var(--rosa-suave); }
 
     .social-links {
       display: flex;
@@ -422,26 +437,13 @@
       font-size: 12px;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-      .form-card, .welcome-card {
-        padding: 24px 18px;
-      }
-      .welcome-card h1 {
-        font-size: 28px;
-      }
+      .nav-links { display: none; }
+      .footer-content { grid-template-columns: 1fr; gap: 30px; }
+      .form-card, .welcome-card { padding: 24px 18px; }
+      .welcome-card h1 { font-size: 28px; }
     }
   </style>
 </head>
@@ -449,14 +451,13 @@
 
 <nav class="navbar">
   <div class="nav-container">
-    <div class="logo">
-      <span>EVERSWEET</span>
-    </div>
+    <div class="logo"><span>EVERSWEET</span></div>
     <div class="nav-links">
       <a href="/Inicio">Início</a>
       <a href="/Cadastro">Cadastrar Doce</a>
       <a href="/doces">Doces</a>
       <a href="/Sobre">Sobre</a>
+      
     </div>
     <a href="/Perfil">
         <i class="fas fa-user-circle nav-user"></i>
@@ -465,43 +466,84 @@
 </nav>
 
 <main class="main-content">
+
   <div class="welcome-card">
-    <h1>Bem-vindo de volta</h1>
-    <p>Entre com sua conta para continuar.</p>
+    <h1>Meu Perfil</h1>
+    <p>Gerencie suas informações pessoais.</p>
   </div>
 
   <div class="form-card">
-    <div class="alert-erro" id="alertErro">
-      E-mail ou senha incorretos.
+
+    <div class="avatar-wrap">
+      <div class="avatar" id="avatarLetra">?</div>
+    </div>
+
+    <div class="section-divider"><span>Dados Pessoais</span></div>
+
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <div class="input-wrap">
+        <input type="text" id="nome" placeholder="Seu nome completo"/>
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="field-error" id="err-nome">Informe seu nome.</div>
     </div>
 
     <div class="form-group">
       <label for="email">E-mail</label>
       <div class="input-wrap">
-        <input type="email" id="email" placeholder="voce@empresa.com"/>
+        <input type="email" id="email" placeholder="voce@empresa.com" readonly/>
         <i class="fa-solid fa-envelope"></i>
       </div>
-      <div class="field-error" id="err-email">Informe um e-mail válido.</div>
     </div>
 
     <div class="form-group">
-      <label for="senha">Senha</label>
+      <label for="telefone">Telefone</label>
       <div class="input-wrap">
-        <input type="password" id="senha" placeholder="Sua senha"/>
-        <i class="fa-solid fa-lock"></i>
-        <i class="fa-solid fa-eye toggle-senha" id="toggleSenha"></i>
+        <input type="tel" id="telefone" placeholder="(00) 00000-0000"/>
+        <i class="fa-solid fa-phone"></i>
       </div>
-      <div class="field-error" id="err-senha">Por favor, informe sua senha.</div>
+      <div class="field-error" id="err-telefone">Informe seu telefone.</div>
     </div>
 
-    <button class="btn-login" id="btnLogin">
-      <span class="btn-text">Entrar</span>
+    <div class="form-group">
+      <label for="empresa">Empresa</label>
+      <div class="input-wrap">
+        <input type="text" id="empresa" placeholder="Nome da sua empresa"/>
+        <i class="fa-solid fa-building"></i>
+      </div>
+      <div class="field-error" id="err-empresa">Informe sua empresa.</div>
+    </div>
+
+    <button class="btn-salvar" id="btnSalvar">
+      <span class="btn-text">Salvar Alterações</span>
       <div class="spinner"></div>
     </button>
 
-    <div class="form-footer">
-      Não tem uma conta? <a href="/Cadastro_usuario">Cadastrar</a>
+    <div class="section-divider" style="margin-top: 2rem;"><span>Alterar Senha</span></div>
+
+    <div class="form-group">
+      <label for="senha-atual">Senha Atual</label>
+      <div class="input-wrap">
+        <input type="password" id="senha-atual" placeholder="Sua senha atual"/>
+        <i class="fa-solid fa-lock"></i>
+        <i class="fa-solid fa-eye toggle-senha" id="toggleAtual"></i>
+      </div>
+      <div class="field-error" id="err-senha-atual">Informe sua senha atual.</div>
     </div>
+
+    <div class="form-group">
+      <label for="senha-nova">Nova Senha</label>
+      <div class="input-wrap">
+        <input type="password" id="senha-nova" placeholder="Mínimo 6 caracteres"/>
+        <i class="fa-solid fa-lock"></i>
+        <i class="fa-solid fa-eye toggle-senha" id="toggleNova"></i>
+      </div>
+      <div class="field-error" id="err-senha-nova">A senha deve ter ao menos 6 caracteres.</div>
+    </div>
+
+    <button class="btn-outline" id="btnSenha">Atualizar Senha</button>
+
   </div>
 </main>
 
@@ -542,10 +584,45 @@
 
 <script>
 $(function () {
-  $('#toggleSenha').on('click', function () {
-    const input = $('#senha');
-    const tipo = input.attr('type') === 'password' ? 'text' : 'password';
-    input.attr('type', tipo);
+
+  const token  = $.cookie('token');
+  const userId = $.cookie('user_id');
+
+  if (!token) {
+    window.location.href = '/Login';
+  }
+
+  function carregarPerfil() {
+    $.ajax({
+      url: '/api/perfil?token=' + token,
+      method: 'GET',
+      success: function (res) {
+        if (res.erro === 'n') {
+          const u = res.usuario;
+          $('#nome').val(u.nome);
+          $('#email').val(u.email);
+          $('#telefone').val(u.telefone);
+          $('#empresa').val(u.empresa);
+          $('#avatarLetra').text(u.nome ? u.nome.charAt(0).toUpperCase() : '?');
+        }
+      },
+      error: function () {
+        showToast('Erro ao carregar perfil.', 'error');
+      }
+    });
+  }
+
+  carregarPerfil();
+
+  $('#toggleAtual').on('click', function () {
+    const i = $('#senha-atual');
+    i.attr('type', i.attr('type') === 'password' ? 'text' : 'password');
+    $(this).toggleClass('fa-eye fa-eye-slash');
+  });
+
+  $('#toggleNova').on('click', function () {
+    const i = $('#senha-nova');
+    i.attr('type', i.attr('type') === 'password' ? 'text' : 'password');
     $(this).toggleClass('fa-eye fa-eye-slash');
   });
 
@@ -553,28 +630,87 @@ $(function () {
     const id = $(this).attr('id');
     $(this).removeClass('is-invalid');
     $('#err-' + id).removeClass('show');
-    $('#alertErro').removeClass('show');
   });
 
-  function validate() {
+  $('#btnSalvar').on('click', function () {
     let valid = true;
-    const email = $('#email').val().trim();
-    const senha = $('#senha').val();
-    const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    function setErr(id, cond) {
-      if (cond) {
-        $('#' + id).addClass('is-invalid');
-        $('#err-' + id).addClass('show');
+    ['nome', 'telefone', 'empresa'].forEach(function (c) {
+      if (!$('#' + c).val().trim()) {
+        $('#' + c).addClass('is-invalid');
+        $('#err-' + c).addClass('show');
         valid = false;
       }
+    });
+
+    if (!valid) return;
+
+    const $btn = $(this).addClass('loading').prop('disabled', true);
+
+    $.ajax({
+      url: '/api/perfil?token=' + token,
+      method: 'PUT',
+      data: {
+        nome:     $('#nome').val().trim(),
+        telefone: $('#telefone').val().trim(),
+        empresa:  $('#empresa').val().trim(),
+      },
+      success: function (res) {
+        if (res.erro === 'n') {
+          showToast('Perfil atualizado com sucesso!', 'success');
+          $('#avatarLetra').text($('#nome').val().charAt(0).toUpperCase());
+        } else {
+          showToast(res.data || 'Erro ao atualizar.', 'error');
+        }
+      },
+      error: function () {
+        showToast('Erro ao conectar com o servidor.', 'error');
+      },
+      complete: function () {
+        $btn.removeClass('loading').prop('disabled', false);
+      }
+    });
+  });
+
+  $('#btnSenha').on('click', function () {
+    let valid = true;
+    const atual = $('#senha-atual').val();
+    const nova  = $('#senha-nova').val();
+
+    if (!atual) {
+      $('#senha-atual').addClass('is-invalid');
+      $('#err-senha-atual').addClass('show');
+      valid = false;
     }
+    if (!nova || nova.length < 6) {
+      $('#senha-nova').addClass('is-invalid');
+      $('#err-senha-nova').addClass('show');
+      valid = false;
+    }
+    if (!valid) return;
 
-    setErr('email', !email || !reg.test(email));
-    setErr('senha', !senha);
+    const $btn = $(this).prop('disabled', true).text('Aguarde...');
 
-    return valid;
-  }
+    $.ajax({
+      url: '/api/perfil/senha?token=' + token,
+      method: 'PUT',
+      data: { senha_atual: atual, senha_nova: nova },
+      success: function (res) {
+        if (res.erro === 'n') {
+          showToast('Senha alterada com sucesso!', 'success');
+          $('#senha-atual, #senha-nova').val('');
+        } else {
+          showToast(res.data || 'Senha atual incorreta.', 'error');
+        }
+      },
+      error: function (xhr) {
+        const msg = xhr.responseJSON?.data || 'Erro ao alterar senha.';
+        showToast(msg, 'error');
+      },
+      complete: function () {
+        $btn.prop('disabled', false).text('Atualizar Senha');
+      }
+    });
+  });
 
   function showToast(msg, type) {
     $('#toastIcon').text(type === 'success' ? '✅' : '❌');
@@ -583,44 +719,6 @@ $(function () {
     setTimeout(() => $('#toast').removeClass('show'), 3000);
   }
 
-  $('#btnLogin').on('click', function () {
-    if (!validate()) return;
-
-    const $btn = $(this).addClass('loading').prop('disabled', true);
-    $('#alertErro').removeClass('show');
-
-    $.ajax({
-      url: '/api/Login',
-      method: 'POST',
-      data: {
-        email: $('#email').val().trim(),
-        senha: $('#senha').val()
-      },
-      success: function (res) {
-        if (res.erro === 'n') {
-          $.cookie('token', res.token, { expires: 7, path: '/' });
-          $.cookie('user_id', res.user_id, { expires: 7, path: '/' });
-          showToast('Login realizado com sucesso!', 'success');
-          setTimeout(() => window.location.href = '/Inicio?token=' + res.token, 2000);
-        } else {
-          $('#alertErro').text(res.data || 'E-mail ou senha incorretos.').addClass('show');
-          $btn.removeClass('loading').prop('disabled', false);
-        }
-      },
-      error: function (xhr) {
-        if (xhr.status === 401) {
-          $('#alertErro').addClass('show');
-        } else {
-          showToast('Erro ao conectar com o servidor.', 'error');
-        }
-        $btn.removeClass('loading').prop('disabled', false);
-      }
-    });
-  });
-
-  $('#email, #senha').on('keydown', function (e) {
-    if (e.key === 'Enter') $('#btnLogin').trigger('click');
-  });
 });
 </script>
 

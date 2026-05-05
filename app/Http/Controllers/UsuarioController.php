@@ -88,4 +88,33 @@ class UsuarioController extends Controller
 
         return response()->json($data);
     }
+
+
+
+    public function exibe_perfil(Request $request)
+    {
+        $usuario = $request->attributes->get('usuario');
+        return response()->json(['erro' => 'n', 'usuario' => $usuario], 200);
+    }
+
+    public function atualiza_perfil(Request $request)
+    {
+        $usuario = $request->attributes->get('usuario');
+        $usuario->update($request->only(['nome', 'telefone', 'empresa']));
+        return response()->json(['erro' => 'n', 'data' => 'Perfil atualizado com sucesso.'], 200);
+    }
+
+    public function atualiza_senha(Request $request)
+    {
+        $usuario = $request->attributes->get('usuario');
+
+        if ($usuario->senha !== md5($request->senha_atual)) {
+            return response()->json(['erro' => 's', 'data' => 'Senha atual incorreta.'], 401);
+        }
+
+        $usuario->senha = md5($request->senha_nova);
+        $usuario->save();
+
+        return response()->json(['erro' => 'n', 'data' => 'Senha alterada com sucesso.'], 200);
+    }
 }

@@ -57,6 +57,7 @@ A aplicação consome uma API REST desenvolvida em Laravel.
 * [PUT /Atualiza Doce][http://127.0.0.1:8000/api/atualiza_doce/11?token={token}]
 * [DELETE /Deleta Doce][http://127.0.0.1:8000/api/deleta_doce/11?token={token}]
 * [GET /Todos Doces][http://127.0.0.1:8000/api/todos_doces]
+* [GET /Enviar Email][http://localhost:8000/api/testa-email/2]
 
 📬 Documentação completa da API:
 👉 [https://documenter.getpostman.com/view/51855037/2sBXirkURM]
