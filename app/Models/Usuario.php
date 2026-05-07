@@ -14,5 +14,6 @@ class Usuario extends Model
         'senha',
         'telefone',
         'empresa',
+        'dupla_autentica',
     ];
 }

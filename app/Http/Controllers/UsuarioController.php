@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use App\Jobs\EnviarEmail;
+use App\Jobs\AutenticaJob;
 
 class UsuarioController extends Controller
 {
@@ -51,6 +52,15 @@ class UsuarioController extends Controller
                 'erro' => 's',
                 'data' => 'E-mail ou senha incorretos.'
             ], 401);
+        }
+
+        if($usuario->dupla_autentica == '1') {
+            AutenticaJob::dispatch($usuario);
+            
+            return response()->json([
+                'erro' => 'n',
+                'data' => 'Código de autenticação enviado para o e-mail.'
+            ], 200);
         }
 
         TokenUser::where('user_id', $usuario->id)->delete();
@@ -116,5 +126,17 @@ class UsuarioController extends Controller
         $usuario->save();
 
         return response()->json(['erro' => 'n', 'data' => 'Senha alterada com sucesso.'], 200);
+    }
+
+    public function digita_codigo(Request $request){
+        return view('digita_codigo');
+    }
+
+
+    public function enviar_codigo(Request $request){
+        $request->validate([
+            'email'=>'required',
+            'codigo'=>'required'
+        ])
     }
 }
