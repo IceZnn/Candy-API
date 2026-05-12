@@ -520,6 +520,8 @@
       <div class="spinner"></div>
     </button>
 
+    <button class="btn-outline" id="btnDupla">Carregando autenticação dupla...</button>
+
     <div class="section-divider" style="margin-top: 2rem;"><span>Alterar Senha</span></div>
 
     <div class="form-group">
@@ -604,6 +606,7 @@ $(function () {
           $('#telefone').val(u.telefone);
           $('#empresa').val(u.empresa);
           $('#avatarLetra').text(u.nome ? u.nome.charAt(0).toUpperCase() : '?');
+          updateDuplaButton(u.dupla_autentica === '1');
         }
       },
       error: function () {
@@ -711,6 +714,38 @@ $(function () {
       }
     });
   });
+
+  $('#btnDupla').on('click', function () {
+    const ativa = $(this).data('ativa') ? 0 : 1;
+    const $btn = $(this).prop('disabled', true).text('Aguarde...');
+
+    $.ajax({
+      url: '/api/perfil/dupla-autentica?token=' + token,
+      method: 'PUT',
+      data: { ativa },
+      success: function (res) {
+        if (res.erro === 'n') {
+          showToast(res.data, 'success');
+          updateDuplaButton(res.dupla_autentica === '1');
+        } else {
+          showToast(res.data || 'Erro ao alterar autenticação dupla.', 'error');
+        }
+      },
+      error: function (xhr) {
+        const msg = xhr.responseJSON?.data || 'Erro ao alterar autenticação dupla.';
+        showToast(msg, 'error');
+      },
+      complete: function () {
+        $btn.prop('disabled', false);
+      }
+    });
+  });
+
+  function updateDuplaButton(active) {
+    $('#btnDupla')
+      .data('ativa', active ? 1 : 0)
+      .text(active ? 'Desativar autenticação dupla' : 'Ativar autenticação dupla');
+  }
 
   function showToast(msg, type) {
     $('#toastIcon').text(type === 'success' ? '✅' : '❌');

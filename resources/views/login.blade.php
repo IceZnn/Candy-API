@@ -494,6 +494,12 @@
       <div class="field-error" id="err-senha">Por favor, informe sua senha.</div>
     </div>
 
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input type="checkbox" id="ativarDuplaAutentica" /> Ativar autenticação dupla permanentemente
+      </label>
+    </div>
+
     <button class="btn-login" id="btnLogin">
       <span class="btn-text">Entrar</span>
       <div class="spinner"></div>
@@ -594,7 +600,8 @@ $(function () {
       method: 'POST',
       data: {
         email: $('#email').val().trim(),
-        senha: $('#senha').val()
+        senha: $('#senha').val(),
+        ativar_dupla_autentica: $('#ativarDuplaAutentica').is(':checked') ? 1 : 0
       },
       success: function (res) {
         if (res.erro === 'n') {
@@ -602,6 +609,9 @@ $(function () {
           $.cookie('user_id', res.user_id, { expires: 7, path: '/' });
           showToast('Login realizado com sucesso!', 'success');
           setTimeout(() => window.location.href = '/Inicio?token=' + res.token, 2000);
+        } else if (res.autentica_ativa || res.erro === 'p' || res.data === 'Código de autenticação enviado para o e-mail. Digite o código para continuar.') {
+          showToast(res.data || 'Autenticação ativa. Redirecionando para digitar o código...', 'success');
+          setTimeout(() => window.location.href = '/digita_codigo?email=' + encodeURIComponent(res.email), 1200);
         } else {
           $('#alertErro').text(res.data || 'E-mail ou senha incorretos.').addClass('show');
           $btn.removeClass('loading').prop('disabled', false);

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Middleware\auth_api;
+use FontLib\Table\Type\name;
 
 Route::get('/', function () {
     return view('login');
@@ -39,6 +40,14 @@ Route::get('/Login', function () {
 Route::get('/Perfil', function () {
     return view('perfil');
 });
+
+Route::get('/digita_codigo', function () {
+    return view('digita_codigo');
+})->name('digita_codigo');
+
+
+
+
 /* TOKEN */
 
 Route::middleware(auth_api::class)->group(function () {

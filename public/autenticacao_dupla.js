@@ -1,27 +1,40 @@
-$(document).ready(function(){
-    $("#enviar_codigo").click(function(){
-        
-        $.ajax({
-            type: "GET",
-            url: "api/enviar_codigo",
-            data: {
-                codigo: $("#codigo").val(),
-                email: $("#email").val(),
-            },
-            dataType: "json",
-            success: function(response) {
-                if(response.erro === 'n') {
-                    alert(response.data);
-                    $.cookie('token', response.token, { expires: 7, path: '/' });
-                    $.cookie('user_id', response.user_id, { expires: 7, path: '/' });
+$(document).ready(function() {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get('email');
 
-                    setTimeout(() => window.location.href = '/Inicio?token=' + res.token, 2000);
+    if (emailParam) {
+        $('#email').val(emailParam);
+    }
+
+    $('#enviar_codigo').click(function() {
+        const codigo = $('#codigo').val();
+        const email = $('#email').val();
+
+        if (!email || !codigo) {
+            alert('Preencha o e-mail e o código.');
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/enviar_codigo',
+            data: {
+                codigo: codigo,
+                email: email,
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.erro === 'n') {
+                    $.cookie('token', response.token, { expires: 7, path: '/' });
+                    alert('Código válido! Você será redirecionado.');
+                    window.location.href = '/Inicio';
                 } else {
-                    alert(response.data);
+                    alert(response.data || 'Erro ao validar o código.');
                 }
             },
             error: function(xhr) {
-                alert('Erro na requisição');
+                const response = xhr.responseJSON;
+                alert((response && response.data) ? response.data : 'Erro ao validar o código.');
             }
         });
     });

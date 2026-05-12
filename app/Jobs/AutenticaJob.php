@@ -28,11 +28,10 @@ class AutenticaJob implements ShouldQueue
      */
     public function handle(): void
     {
-        
         $codigo = rand(100000, 999999);
         $email = $this->usuario->email;
         $valido_ate = now()->addMinutes(10);
-        
+
         CodigoEmail::create ([
             'codigo'=> $codigo,
             'email'=> $email,
@@ -41,6 +40,5 @@ class AutenticaJob implements ShouldQueue
         ]);
 
         Mail::to($email)->send(new AutenticaDuplaMail($codigo));
-    
     }
 }

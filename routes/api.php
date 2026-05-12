@@ -7,11 +7,11 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PdfController;
 use App\Http\Middleware\auth_api;
 
-
-
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/enviar_codigo', [UsuarioController::class, 'enviar_codigo']);
 
 Route::get('/exportar-pdf', [PdfController::class, 'exportar_pdf']);
 
@@ -37,6 +37,8 @@ Route::put('/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
 Route::get('/perfil',[UsuarioController::class, 'exibe_perfil']);
 
 Route::put('/perfil',[UsuarioController::class, 'atualiza_perfil']);
+
+Route::put('/perfil/dupla-autentica',[UsuarioController::class, 'atualiza_dupla_autentica']);
 
 Route::put('/perfil/senha',[UsuarioController::class, 'atualiza_senha']);
 });
