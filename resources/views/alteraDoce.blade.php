@@ -187,8 +187,9 @@ $(document).ready(function () {
     $('#atualizaBotao').click(function () {
         $.ajax({
             url: `/api/atualiza_doce/${id}?token=${token}`,
-            type: 'PUT',
+            type: 'POST',
             data: {
+                _method:      'PUT',
                 Nome:         $('#inputNome').val(),
                 Sabor:        $('#inputSabor').val(),
                 Preco:        $('#inputPreco').val(),

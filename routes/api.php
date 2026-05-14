@@ -32,7 +32,7 @@ Route::get( '/exibe_doce/{id}',[TestController::class,'exibe_doce']);
 
 Route::delete('/deleta_doce/{id}', [TestController::class, 'deleta_doce']);
 
-Route::put('/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
+Route::match(['post', 'put'], '/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
 
 Route::get('/perfil',[UsuarioController::class, 'exibe_perfil']);
 

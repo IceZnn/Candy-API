@@ -82,6 +82,7 @@ Candy-API/
 * 📘 Documentação: [https://drive.google.com/file/d/1xUXRyPjd9lmlEVtiH8T_wRGjt-9rtQy4/view]
 * 📬 API (Postman): [https://documenter.getpostman.com/view/51855037/2sBXirkURM#58ece7f7-8a49-4a1d-82e1-0fe4dd0ce468]
 * 📊 Jira: [https://dstatuibenso.atlassian.net/jira/software/projects/PC/boards/2?atlOrigin=eyJpIjoiM2Y3ZDM4NGYwZWExNDdmY2I5Nzg3NmYxYjJmYjVjZmYiLCJwIjoiaiJ9]
+* 🚩 Caso De Teste: [https://trello.com/invite/b/68d3c7e37f0c4de478c6c8cf/ATTI04b52685a1f2e0512619eb551dd9d5c5C93E995B/caso-de-teste]
 
 ## 👨‍💻 Autores
 
