@@ -173,7 +173,14 @@ class UsuarioController extends Controller
             ->first();
 
         if ($codigo) {
-            $usuario = Usuario::find($codigo->user_id);
+            $usuario = Usuario::where('email', $codigo->email)->first();
+            if (!$usuario) {
+                return response()->json([
+                    'erro' => 's',
+                    'data' => 'Usuário não encontrado para este código.'
+                ], 401);
+            }
+
             TokenUser::where('user_id', $usuario->id)->delete();
             $token = new TokenUser();
             $token->user_id = $usuario->id;
