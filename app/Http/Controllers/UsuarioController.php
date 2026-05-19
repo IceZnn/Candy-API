@@ -9,7 +9,12 @@ use App\Models\Usuario;
 use Carbon\Carbon;
 use App\Jobs\EnviarEmail;
 use App\Jobs\AutenticaJob;
+use App\Jobs\EnviarResetSenhaJob;
 use App\Models\CodigoEmail;
+use App\Models\ResetSenha;
+use App\Mail\ResetSenhaMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
@@ -206,5 +211,92 @@ class UsuarioController extends Controller
             'erro' => 's',
             'data' => 'Código inválido ou expirado.'
         ], 401);
+    }
+
+    public function esqueci_senha(Request $request){
+        return view('esqueci_senha');
+    }
+
+    public function enviar_reset_senha(Request $request){
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $usuario = Usuario::where('email', $request->email)->first();
+        
+        if (!$usuario) {
+            return response()->json([
+                'erro' => 's',
+                'data' => 'E-mail não encontrado no sistema.'
+            ], 404);
+        }
+
+        ResetSenha::where('email', $request->email)->delete();
+
+        $codigo = rand(100000, 999999);
+        $valido_ate = Carbon::now()->addMinutes(10);
+
+        ResetSenha::create([
+            'email' => $request->email,
+            'codigo' => $codigo,
+            'valido_ate' => $valido_ate,
+        ]);
+
+        EnviarResetSenhaJob::dispatch($request->email, $codigo);
+
+        return response()->json([
+            'erro' => 'n',
+            'data' => 'Código de recuperação enviado para seu e-mail.',
+            'email' => $request->email
+        ], 200);
+    }
+
+    public function validar_codigo_reset(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'codigo' => 'required'
+        ]);
+
+        $reset = ResetSenha::where('email', $request->email)
+            ->where('codigo', $request->codigo)
+            ->where('valido_ate', '>', Carbon::now())
+            ->first();
+
+        if (!$reset) {
+            return response()->json([
+                'erro' => 's',
+                'data' => 'Código inválido ou expirado.'
+            ], 401);
+        }
+
+        return response()->json([
+            'erro' => 'n',
+            'data' => 'Código válido. Prossiga para alterar sua senha.'
+        ], 200);
+    }
+
+    public function confirmar_nova_senha(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'senha_nova' => 'required|min:6'
+        ]);
+
+        $usuario = Usuario::where('email', $request->email)->first();
+        if (!$usuario) {
+            return response()->json([
+                'erro' => 's',
+                'data' => 'Usuário não encontrado.'
+            ], 404);
+        }
+
+        $usuario->senha = md5($request->senha_nova);
+        $usuario->save();
+
+        ResetSenha::where('email', $request->email)->delete();
+
+        return response()->json([
+            'erro' => 'n',
+            'data' => 'Senha alterada com sucesso. Você será redirecionado para o início.'
+        ], 200);
     }
 }

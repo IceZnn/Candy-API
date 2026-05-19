@@ -45,6 +45,16 @@ Route::get('/digita_codigo', function () {
     return view('digita_codigo');
 })->name('digita_codigo');
 
+Route::get('/esqueci_senha', [\App\Http\Controllers\UsuarioController::class, 'esqueci_senha'])->name('esqueci_senha');
+
+Route::get('/digita_reset_senha', function () {
+    return view('digita_reset_senha');
+})->name('digita_reset_senha');
+
+Route::get('/alterar_senha', function () {
+    return view('alterar_senha');
+})->name('alterar_senha');
+
 
 
 

@@ -13,6 +13,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/enviar_codigo', [UsuarioController::class, 'enviar_codigo']);
 
+Route::post('/enviar_reset_senha', [UsuarioController::class, 'enviar_reset_senha']);
+
+Route::post('/validar_codigo_reset', [UsuarioController::class, 'validar_codigo_reset']);
+
+Route::post('/confirmar_nova_senha', [UsuarioController::class, 'confirmar_nova_senha']);
+
 Route::get('/exportar-pdf', [PdfController::class, 'exportar_pdf']);
 
 Route::get( '/todos_doces',[TestController::class,'todos_doces']);

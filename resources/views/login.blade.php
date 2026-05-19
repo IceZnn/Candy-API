@@ -506,7 +506,7 @@
     </button>
 
     <div class="form-footer">
-      Não tem uma conta? <a href="/Cadastro_usuario">Cadastrar</a>
+      Não tem uma conta? <a href="/Cadastro_usuario">Cadastrar</a> | <a href="/esqueci_senha">Esqueci minha senha</a>
     </div>
   </div>
 </main>
