@@ -532,7 +532,6 @@
 
 <script>
 $(document).ready(function () {
-
     const token    = $.cookie("token");
     const userId   = parseInt($.cookie("user_id"));
     let todosDoces = [];
@@ -547,28 +546,21 @@ $(document).ready(function () {
             `);
             return;
         }
-
         let html = '<div class="grid">';
-
         doces.forEach(function (d) {
-            const eDono = userId && d.user_id === userId;
-
+            const eDono = !isNaN(userId) && parseInt(d.user_id) === userId;
             const badgeDono = eDono
                 ? `<div class="badge-dono"><i class="fas fa-crown"></i> Meu doce</div>`
                 : '';
-
             const btnEditar = (eDono && token)
                 ? `<a class="btn-editar" href="/editar/${d.id}?token=${token}" title="Editar"><i class="fas fa-pen"></i></a>`
                 : '';
-
             const btnDeletar = (eDono && token)
                 ? `<a class="btn-deletar" href="/deletar/${d.id}?token=${token}" title="Deletar"><i class="fas fa-trash"></i></a>`
                 : '';
-
             const btnVer = token
                 ? `<a class="btn-ver" href="/doce/${d.id}?token=${token}"><i class="fas fa-eye"></i> Ver detalhes</a>`
                 : `<span class="btn-ver" style="opacity:.5;cursor:default;background:#ccc"><i class="fas fa-lock"></i> Faça login</span>`;
-
             html += `
                 <div class="card" data-nome="${d.Nome.toLowerCase()}" data-sabor="${d.Sabor.toLowerCase()}">
                     <div class="card-thumb"></div>
@@ -594,7 +586,6 @@ $(document).ready(function () {
                 </div>
             `;
         });
-
         html += '</div>';
         $('#conteudo').html(html);
     }
@@ -632,7 +623,6 @@ $(document).ready(function () {
         });
         renderizar(filtrado);
     });
-
 });
 </script>
 

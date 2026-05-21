@@ -327,19 +327,51 @@
       background: rgba(74,0,18,0.04);
     }
 
+    .btn-logout {
+      width: 100%;
+      padding: 14px;
+      background: #dc2626;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .25s;
+      margin-top: 1rem;
+    }
+
+    .btn-logout:hover {
+      background: #b91c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(220, 38, 38, 0.35);
+    }
+
+    .btn-logout:active { transform: translateY(0); }
+
+    .btn-logout:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .spinner {
       display: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top: 3px solid white;
+      border-right: 3px solid white;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
       margin: 0 auto;
     }
 
     .btn-salvar.loading .btn-text { display: none; }
     .btn-salvar.loading .spinner { display: block; }
+    .btn-logout.loading .btn-text { display: none; }
+    .btn-logout.loading .spinner { display: block; }
 
     .toast {
       position: fixed;
@@ -546,6 +578,11 @@
 
     <button class="btn-outline" id="btnSenha">Atualizar Senha</button>
 
+    <button class="btn-logout" id="btnLogout">
+      <span class="btn-text"><i class="fa-solid fa-sign-out-alt" style="margin-right: 8px;"></i>Sair da Conta</span>
+      <div class="spinner"></div>
+    </button>
+
   </div>
 </main>
 
@@ -737,6 +774,27 @@ $(function () {
       },
       complete: function () {
         $btn.prop('disabled', false);
+      }
+    });
+  });
+
+  $('#btnLogout').on('click', function () {
+    const $btn = $(this).addClass('loading').prop('disabled', true);
+
+    $.ajax({
+      url: '/api/logout?token=' + token,
+      method: 'POST',
+      success: function () {
+        $.removeCookie('token');
+        $.removeCookie('user_id');
+        showToast('Deslogado com sucesso!', 'success');
+        setTimeout(() => {
+          window.location.href = '/Login';
+        }, 1000);
+      },
+      error: function () {
+        showToast('Erro ao deslogar.', 'error');
+        $btn.removeClass('loading').prop('disabled', false);
       }
     });
   });

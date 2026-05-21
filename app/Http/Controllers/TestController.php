@@ -136,12 +136,9 @@ class TestController extends Controller
 
     public function todos_doces()
     {
-        $doces = Cache::rememberForever($this->keyTodos(), function () {
-            \Log::info('🔥 CACHE MISS - Buscando do banco');
+        $doces = Cache::rememberForever($this->keyTodos(), function () {  
             return DoceModel::all();
         });
-
-        \Log::info('📦 CACHE HIT - Retornando do cache');
         return response()->json(['erro' => 'n', 'doces' => $doces], 200);
     }
 

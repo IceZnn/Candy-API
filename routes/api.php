@@ -47,4 +47,6 @@ Route::put('/perfil',[UsuarioController::class, 'atualiza_perfil']);
 Route::put('/perfil/dupla-autentica',[UsuarioController::class, 'atualiza_dupla_autentica']);
 
 Route::put('/perfil/senha',[UsuarioController::class, 'atualiza_senha']);
+
+Route::post('/logout',[UsuarioController::class, 'logout']);
 });

@@ -7,6 +7,7 @@
     <title>Recuperar Senha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <style>
         :root {
             --vinho: #4a0012;
@@ -170,6 +171,12 @@
             }
         }
     </style>
+    <script>
+        // Redireciona para página inicial se já está logado
+        if ($.cookie("token")) {
+            window.location.href = "/Inicio";
+        }
+    </script>
 </head>
 <body>
     <div class="page-wrapper">

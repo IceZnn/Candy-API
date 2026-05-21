@@ -98,6 +98,19 @@
             border-radius: 28px;
             border: 1px solid var(--borda);
             box-shadow: 0 8px 40px rgba(74, 0, 18, 0.07);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .btn-voltar {
@@ -109,7 +122,7 @@
             font-weight: 600;
             font-size: 13px;
             letter-spacing: 0.5px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -119,8 +132,8 @@
         .btn-voltar:hover {
             background-color: var(--vinho-claro);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 0, 18, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(74, 0, 18, 0.25);
         }
 
         .btn-editar {
@@ -132,7 +145,7 @@
             font-weight: 600;
             font-size: 13px;
             letter-spacing: 0.5px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -142,7 +155,8 @@
         .btn-editar:hover {
             background-color: #5a6268;
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(108, 117, 125, 0.25);
         }
 
         .info-card {
@@ -150,6 +164,12 @@
             border-radius: 20px;
             padding: 28px;
             border: 1px solid var(--borda);
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            background-color: white;
+            box-shadow: 0 12px 30px rgba(74, 0, 18, 0.12);
+            border-color: var(--rosa-suave);
         }
 
         .info-label {
@@ -159,6 +179,9 @@
             font-weight: 700;
             letter-spacing: 1.5px;
             margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .info-value {
@@ -169,23 +192,42 @@
         }
 
         .badge-alergico {
-            background-color: #fffbeb;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             color: #b45309;
             border: 1px solid #fde68a;
-            padding: 6px 14px;
+            padding: 8px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .badge-alergico:hover {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(180, 83, 9, 0.15);
         }
 
         .badge-estoque {
-            background-color: var(--creme);
+            background: linear-gradient(135deg, var(--creme) 0%, rgba(255, 179, 193, 0.1) 100%);
             color: var(--vinho);
-            border: 1px solid var(--rosa-suave);
-            padding: 8px 18px;
+            border: 1.5px solid var(--rosa-suave);
+            padding: 10px 20px;
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .badge-estoque:hover {
+            background: linear-gradient(135deg, rgba(255, 179, 193, 0.15) 0%, var(--creme) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 0, 18, 0.15);
+            border-color: var(--vinho);
         }
 
         .page-header {

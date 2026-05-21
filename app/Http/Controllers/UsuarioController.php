@@ -299,4 +299,18 @@ class UsuarioController extends Controller
             'data' => 'Senha alterada com sucesso. Você será redirecionado para o início.'
         ], 200);
     }
+
+    public function logout(Request $request)
+    {
+        $usuario = $request->attributes->get('usuario');
+        
+        if ($usuario) {
+            TokenUser::where('user_id', $usuario->id)->delete();
+        }
+
+        return response()->json([
+            'erro' => 'n',
+            'data' => 'Deslogado com sucesso.'
+        ], 200);
+    }
 }

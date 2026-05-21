@@ -98,6 +98,41 @@
         }
         .btn-voltar:hover { border-color: var(--vinho); color: var(--vinho); transform: translateY(-2px); }
 
+        .input-wrap { position: relative; margin-bottom: 0; }
+        .input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c4748a;
+            font-size: 14px;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+        .form-control.with-icon { padding-left: 40px; }
+        .form-control:focus + i { color: var(--vinho); }
+        .form-control.is-invalid { border-color: #e53e3e !important; box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important; }
+        .form-control.is-valid { border-color: #10b981 !important; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important; }
+        .field-error { display: none; font-size: 12px; color: #c53030; margin-top: 5px; }
+        .field-error.show { display: block; }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-right: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        .btn-save.loading .btn-text { display: none; }
+        .btn-save.loading .spinner { display: inline-block; }
+        .btn-save:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .form-card { padding: 24px 18px; }
@@ -141,38 +176,66 @@
             <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="inputNome" name="Nome" value="{{ $doce->Nome ?? '' }}" placeholder="Ex: Brigadeiro de Pistache">
+                    <div class="input-wrap">
+                        <input type="text" class="form-control with-icon" id="inputNome" name="Nome" value="{{ $doce->Nome ?? '' }}" placeholder="Ex: Brigadeiro de Pistache">
+                        <i class="fa-solid fa-tag"></i>
+                    </div>
+                    <div class="field-error" id="err-inputNome">O nome é obrigatório.</div>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Sabor</label>
-                    <input type="text" class="form-control" id="inputSabor" name="Sabor" value="{{ $doce->Sabor ?? '' }}" placeholder="Ex: Doce / Amargo">
+                    <div class="input-wrap">
+                        <input type="text" class="form-control with-icon" id="inputSabor" name="Sabor" value="{{ $doce->Sabor ?? '' }}" placeholder="Ex: Doce / Amargo">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <div class="field-error" id="err-inputSabor">O sabor é obrigatório.</div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Preço (R$)</label>
-                    <input type="text" class="form-control" id="inputPreco" name="Preco" value="{{ $doce->Preco ?? '' }}" placeholder="0,00">
+                    <div class="input-wrap">
+                        <input type="text" class="form-control with-icon" id="inputPreco" name="Preco" value="{{ $doce->Preco ?? '' }}" placeholder="0,00">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div class="field-error" id="err-inputPreco">O preço é obrigatório.</div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Quantidade</label>
-                    <input type="number" class="form-control" id="inputQuantidade" name="Quantidade" value="{{ $doce->Quantidade ?? '' }}" placeholder="0">
+                    <div class="input-wrap">
+                        <input type="number" class="form-control with-icon" id="inputQuantidade" name="Quantidade" value="{{ $doce->Quantidade ?? '' }}" placeholder="0">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                    <div class="field-error" id="err-inputQuantidade">A quantidade é obrigatória.</div>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Alérgicos</label>
-                    <input type="text" class="form-control" id="inputAlergicos" name="Alergicos" value="{{ $doce->Alergicos ?? '' }}" placeholder="Ex: Lactose">
+                    <div class="input-wrap">
+                        <input type="text" class="form-control with-icon" id="inputAlergicos" name="Alergicos" value="{{ $doce->Alergicos ?? '' }}" placeholder="Ex: Lactose">
+                        <i class="fa-solid fa-exclamation-triangle"></i>
+                    </div>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Ingredientes</label>
-                    <input type="text" class="form-control" id="inputIngredientes" name="Ingredientes" value="{{ $doce->Ingredientes ?? '' }}" placeholder="Liste os ingredientes">
+                    <div class="input-wrap">
+                        <input type="text" class="form-control with-icon" id="inputIngredientes" name="Ingredientes" value="{{ $doce->Ingredientes ?? '' }}" placeholder="Liste os ingredientes">
+                        <i class="fa-solid fa-list"></i>
+                    </div>
+                    <div class="field-error" id="err-inputIngredientes">Os ingredientes são obrigatórios.</div>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Descrição</label>
-                    <textarea class="form-control" id="inputDescricao" name="Descricao" rows="2" placeholder="Breve descrição do doce">{{ $doce->Descricao ?? '' }}</textarea>
+                    <div class="input-wrap">
+                        <textarea class="form-control with-icon" id="inputDescricao" name="Descricao" rows="2" placeholder="Breve descrição do doce" style="padding-left: 40px;">{{ $doce->Descricao ?? '' }}</textarea>
+                        <i class="fa-solid fa-align-left"></i>
+                    </div>
+                    <div class="field-error" id="err-inputDescricao">A descrição é obrigatória.</div>
                 </div>
             </div>
 
             <div class="btn-actions">
                 <a href="/doces" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
                 <button type="button" class="btn-save" id="atualizaBotao">
-                    <i class="fas fa-save"></i> Atualizar Doce
+                    <span class="btn-text"><i class="fas fa-save"></i> Atualizar Doce</span>
+                    <div class="spinner"></div>
                 </button>
             </div>
         </form>
@@ -184,7 +247,29 @@ $(document).ready(function () {
     const token = $.cookie('token');
     const id    = $('#doceId').val();
 
+    // Validação em tempo real
+    $('#inputNome, #inputSabor, #inputPreco, #inputQuantidade, #inputIngredientes, #inputDescricao').on('input change', function () {
+        const fieldId = $(this).attr('id');
+        $(this).removeClass('is-invalid is-valid');
+        $('#err-' + fieldId).removeClass('show');
+    });
+
     $('#atualizaBotao').click(function () {
+        let valid = true;
+        const campos = ['inputNome', 'inputSabor', 'inputPreco', 'inputQuantidade', 'inputIngredientes', 'inputDescricao'];
+        
+        campos.forEach(function(fieldId) {
+            if (!$('#' + fieldId).val().trim()) {
+                $('#' + fieldId).addClass('is-invalid');
+                $('#err-' + fieldId).addClass('show');
+                valid = false;
+            }
+        });
+
+        if (!valid) return;
+
+        const $btn = $(this).addClass('loading').prop('disabled', true);
+
         $.ajax({
             url: `/api/atualiza_doce/${id}?token=${token}`,
             type: 'POST',
@@ -204,6 +289,7 @@ $(document).ready(function () {
             },
             error: function (err) {
                 Swal.fire({ title: 'Erro!', text: 'Não foi possível atualizar: ' + (err.responseJSON?.message ?? 'erro desconhecido'), icon: 'error', confirmButtonColor: '#4a0012' });
+                $btn.removeClass('loading').prop('disabled', false);
             }
         });
     });

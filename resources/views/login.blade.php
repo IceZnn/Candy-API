@@ -444,6 +444,7 @@
       }
     }
   </style>
+
 </head>
 <body>
 
@@ -496,7 +497,7 @@
 
     <div class="form-group">
       <label class="checkbox-label">
-        <input type="checkbox" id="ativarDuplaAutentica" /> Ativar autenticação dupla permanentemente
+        <input type="checkbox" id="ativarDuplaAutentica" /> Ativar autenticação dupla 
       </label>
     </div>
 

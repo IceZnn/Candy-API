@@ -21,7 +21,6 @@
             --borda: #ead1d1;
             --texto: #2d0a12;
             --danger: #c0392b;
-            --danger-bg: #fff5f5;
         }
 
         body {
@@ -46,87 +45,213 @@
         .nav-links a:hover { color: var(--rosa-suave); border-color: var(--rosa-suave); }
         .nav-user { color: rgba(255,255,255,0.6); font-size: 22px; cursor: pointer; }
 
-        /* ── PAGE HEADER ── */
-        .page-header { text-align: center; padding: 56px 20px 40px; }
-        .page-header .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--danger); margin-bottom: 10px; }
-        .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; color: var(--vinho); letter-spacing: -1px; }
-
-        /* ── MAIN CARD ── */
-        .delete-card {
-            background: white;
-            border-radius: 28px;
-            border: 1px solid var(--borda);
-            box-shadow: 0 8px 40px rgba(74, 0, 18, 0.07);
-            padding: 40px;
-            max-width: 600px;
-            margin: 0 auto 60px;
+        .page-wrapper {
+            min-height: calc(100vh - 68px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
-        /* ── WARNING BANNER ── */
-        .warning-banner {
-            background: var(--danger-bg);
-            border: 1.5px solid rgba(192, 57, 43, 0.2);
-            border-radius: 18px;
-            padding: 24px;
+        .delete-shell {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .danger-icon-wrap {
+            width: 72px;
+            height: 72px;
+            background: #fdf0ee;
+            border: 2px solid #f5c0b8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .danger-icon-wrap i {
+            font-size: 28px;
+            color: var(--danger);
+            animation: wiggle 3s ease-in-out infinite;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--vinho);
             text-align: center;
+            margin-bottom: 6px;
+        }
+        .page-subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #a06070;
             margin-bottom: 28px;
         }
-        .warning-banner .icon-wrap {
-            width: 56px; height: 56px;
-            background: rgba(192, 57, 43, 0.1);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 12px;
-        }
-        .warning-banner .icon-wrap i { font-size: 22px; color: var(--danger); }
-        .warning-banner h4 { color: var(--danger); font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 4px; }
-        .warning-banner p { color: #9b4040; font-size: 13px; }
 
-        /* ── INFO GRID ── */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
-        .info-grid.full { grid-template-columns: 1fr; }
-
-        .info-item {
-            background: #fafafa;
+        .delete-card {
+            background: white;
+            border-radius: 24px;
             border: 1px solid var(--borda);
-            border-left: 3px solid var(--vinho);
+            overflow: hidden;
+        }
+
+        .card-header-doce {
+            background: linear-gradient(135deg, var(--vinho) 0%, #7a1830 100%);
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .doce-avatar {
+            width: 46px;
+            height: 46px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .doce-avatar i { font-size: 20px; color: rgba(255,255,255,0.9); }
+        .doce-header-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .doce-header-info span {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.5px;
+        }
+        .doce-badge-id {
+            margin-left: auto;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.75);
+            white-space: nowrap;
+        }
+
+        .card-body-doce { padding: 24px 28px; }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .info-row.single { grid-template-columns: 1fr; }
+
+        .info-chip {
+            background: #fdf8f8;
+            border: 1px solid #f0dede;
+            border-radius: 12px;
+            padding: 10px 14px;
+            transition: border-color .2s, background .2s;
+        }
+        .info-chip:hover { background: white; border-color: #e0b0b8; }
+        .info-chip .chip-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #b07080;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .info-chip .chip-label i { font-size: 11px; }
+        .info-chip .chip-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--texto);
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .danger-strip {
+            margin: 0 28px 20px;
+            background: #fff5f3;
+            border: 1px solid #f5c0b8;
             border-radius: 12px;
             padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #8b2020;
         }
-        .info-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #b07080; margin-bottom: 4px; }
-        .info-value { font-size: 14px; font-weight: 500; color: var(--texto); word-break: break-word; }
+        .danger-strip i { font-size: 16px; color: var(--danger); flex-shrink: 0; }
 
-        .section-divider {
-            font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            color: #c0a0a8; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--borda);
+        .card-footer-actions {
+            padding: 0 28px 24px;
+            display: flex;
+            gap: 12px;
         }
-
-        /* ── ACTIONS ── */
-        .btn-actions { display: flex; gap: 14px; margin-top: 8px; }
-
-        .btn-delete {
-            flex: 1; background: var(--danger); color: white; border: none;
-            padding: 14px 24px; font-family: 'DM Sans', sans-serif;
-            font-size: 14px; font-weight: 600; border-radius: 50px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: all .25s; box-shadow: 0 6px 20px rgba(192, 57, 43, 0.25);
-        }
-        .btn-delete:hover { background: #a93226; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(192, 57, 43, 0.35); }
 
         .btn-voltar {
-            background: transparent; color: #7a4050; border: 1.5px solid var(--borda);
-            padding: 14px 24px; font-family: 'DM Sans', sans-serif;
-            font-size: 14px; font-weight: 600; border-radius: 50px; cursor: pointer;
-            text-decoration: none; display: flex; align-items: center; gap: 8px;
-            transition: all .25s; white-space: nowrap;
+            background: transparent;
+            color: #7a4050;
+            border: 1.5px solid var(--borda);
+            padding: 13px 22px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: all .25s;
+            white-space: nowrap;
         }
         .btn-voltar:hover { border-color: var(--vinho); color: var(--vinho); transform: translateY(-2px); }
 
+        .btn-delete {
+            flex: 1;
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all .25s;
+            box-shadow: 0 4px 16px rgba(192, 57, 43, 0.3);
+        }
+        .btn-delete:hover { background: #a93226; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192, 57, 43, 0.4); }
+        .btn-delete:active { transform: translateY(0); }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(-10deg); }
+            40% { transform: rotate(10deg); }
+            60% { transform: rotate(-6deg); }
+            80% { transform: rotate(6deg); }
+        }
+
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .delete-card { padding: 24px 18px; }
-            .info-grid { grid-template-columns: 1fr; }
-            .btn-actions { flex-direction: column-reverse; }
+            .card-header-doce { padding: 18px 20px; }
+            .card-body-doce { padding: 20px; }
+            .danger-strip { margin: 0 20px 16px; }
+            .card-footer-actions { padding: 0 20px 20px; flex-direction: column-reverse; }
+            .info-row { grid-template-columns: 1fr; }
+            .doce-badge-id { display: none; }
         }
     </style>
 </head>
@@ -148,72 +273,76 @@
     </div>
 </nav>
 
-<div class="container px-3">
-    <div class="page-header">
-        <p class="eyebrow">Ação Irreversível</p>
-        <h1>Deletar Doce</h1>
-    </div>
+<div class="page-wrapper">
+    <div class="delete-shell">
 
-    <div class="delete-card">
-
-        <div class="warning-banner">
-            <div class="icon-wrap"><i class="fas fa-exclamation-triangle"></i></div>
-            <h4>Atenção!</h4>
-            <p>Esta ação não pode ser desfeita. O doce será removido permanentemente.</p>
+        <div class="danger-icon-wrap">
+            <i class="fas fa-trash-alt"></i>
         </div>
+        <h1 class="page-title">Deletar Doce</h1>
+        <p class="page-subtitle">Revise as informações antes de confirmar</p>
 
-        <p class="section-divider">Informações do Doce</p>
+        <div class="delete-card">
 
-        <div class="info-grid">
-            <div class="info-item">
-                <div class="info-label">ID</div>
-                <div class="info-value">#{{ $doce->id ?? $id }}</div>
+            <div class="card-header-doce">
+                <div class="doce-avatar">
+                    <i class="fas fa-cookie-bite"></i>
+                </div>
+                <div class="doce-header-info">
+                    <h3>{{ $doce->Nome ?? 'Doce' }}</h3>
+                    <span>{{ $doce->Sabor ?? '' }}</span>
+                </div>
+                <div class="doce-badge-id">#{{ $doce->id ?? $id }}</div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Nome</div>
-                <div class="info-value">{{ $doce->Nome ?? 'Não informado' }}</div>
+
+            <div class="card-body-doce">
+                <div class="info-row">
+                    <div class="info-chip">
+                        <div class="chip-label"><i class="fas fa-dollar-sign"></i> Preço</div>
+                        <div class="chip-value">R$ {{ number_format($doce->Preco ?? 0, 2, ',', '.') }}</div>
+                    </div>
+                    <div class="info-chip">
+                        <div class="chip-label"><i class="fas fa-box"></i> Quantidade</div>
+                        <div class="chip-value">{{ $doce->Quantidade ?? 0 }} unidades</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-chip">
+                        <div class="chip-label"><i class="fas fa-exclamation-triangle"></i> Alérgicos</div>
+                        <div class="chip-value">{{ $doce->Alergicos ?? 'Nenhum' }}</div>
+                    </div>
+                    <div class="info-chip">
+                        <div class="chip-label"><i class="fas fa-list"></i> Ingredientes</div>
+                        <div class="chip-value">{{ Str::limit($doce->Ingredientes ?? 'Não informado', 40) }}</div>
+                    </div>
+                </div>
+                <div class="info-row single">
+                    <div class="info-chip">
+                        <div class="chip-label"><i class="fas fa-align-left"></i> Descrição</div>
+                        <div class="chip-value">{{ $doce->Descricao ?? 'Sem descrição' }}</div>
+                    </div>
+                </div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Sabor</div>
-                <div class="info-value">{{ $doce->Sabor ?? 'Não informado' }}</div>
+
+            <div class="danger-strip">
+                <i class="fas fa-exclamation-circle"></i>
+                Esta ação é<strong>permanente</strong>e não poderá ser desfeita.
             </div>
-            <div class="info-item">
-                <div class="info-label">Preço</div>
-                <div class="info-value">R$ {{ number_format($doce->Preco ?? 0, 2, ',', '.') }}</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Quantidade</div>
-                <div class="info-value">{{ $doce->Quantidade ?? 0 }} un</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Alérgicos</div>
-                <div class="info-value">{{ $doce->Alergicos ?? 'Nenhum' }}</div>
-            </div>
+
+            <form id="deleteForm" action="{{ url('/deletar/' . $id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="token" value="{{ request()->query('token') }}">
+
+                <div class="card-footer-actions">
+                    <a href="/doces" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+                    <button type="button" class="btn-delete" id="btnDeletar">
+                        <i class="fas fa-trash-alt"></i> Confirmar exclusão
+                    </button>
+                </div>
+            </form>
+
         </div>
-
-        <div class="info-grid full">
-            <div class="info-item">
-                <div class="info-label">Ingredientes</div>
-                <div class="info-value">{{ $doce->Ingredientes ?? 'Não informado' }}</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Descrição</div>
-                <div class="info-value">{{ $doce->Descricao ?? 'Sem descrição' }}</div>
-            </div>
-        </div>
-
-        <form id="deleteForm" action="{{ url('/deletar/' . $id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <input type="hidden" name="token" value="{{ request()->query('token') }}">
-
-            <div class="btn-actions">
-                <a href="/doces" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
-                <button type="button" class="btn-delete" id="btnDeletar">
-                    <i class="fas fa-trash-alt"></i> Deletar Doce
-                </button>
-            </div>
-        </form>
     </div>
 </div>
 
@@ -228,8 +357,7 @@
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Sim, deletar!',
             cancelButtonText: 'Cancelar',
-            reverseButtons: true,
-            borderRadius: '16px'
+            reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('deleteForm').submit();
