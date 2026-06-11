@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Jobs\LimparCacheDoces;
 use Illuminate\Http\Request;
 use App\Models\DoceModel;
+use App\Models\CompraModel;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TestController extends Controller
 {
@@ -136,17 +139,18 @@ class TestController extends Controller
 
     public function todos_doces()
     {
-        $doces = Cache::rememberForever($this->keyTodos(), function () {  
-            return DoceModel::all();
-        });
+        // Para atualizar o catálogo o mais perto do instantâneo possível,
+        // não cachear eternamente quando estamos com compra/estoque dinâmico.
+        $doces = DoceModel::all();
         return response()->json(['erro' => 'n', 'doces' => $doces], 200);
     }
 
+
     public function exibe_doce_view(Request $request, $id)
     {
-        $doce = Cache::remember($this->keyDoce($id), now()->addMinutes(self::TTL_DETALHE), function () use ($id) {
-            return DoceModel::where('id', $id)->first();
-        });
+        // Para atualizar o estoque o mais rápido possível, não usar cache no detalhe.
+        $doce = DoceModel::where('id', $id)->first();
+
 
         if (!$doce) {
             return redirect('/doces')->with('erro', 'Doce não encontrado');
@@ -191,4 +195,149 @@ class TestController extends Controller
             return redirect()->back()->with('erro', 'Erro ao deletar doce');
         }
     }
+
+    public function comprar_doce(Request $request, $id)
+    {
+        $request->validate([
+            'quantidade' => 'required|integer|min:1',
+        ]);
+
+
+        $usuario = $request->attributes->get('usuario');
+        $quantidade = (int) $request->input('quantidade');
+
+        try {
+            $resultado = DB::transaction(function () use ($id, $quantidade, $usuario) {
+                $doce = DoceModel::where('id', $id)->lockForUpdate()->first();
+
+                if (!$doce) {
+                    return [
+                        'ok' => false,
+                        'status' => 404,
+                        'message' => 'Doce não encontrado',
+                    ];
+                }
+
+                
+                if ((int) $doce->Quantidade < $quantidade) {
+                    return [
+                        'ok' => false,
+                        'status' => 422,
+                        'message' => 'Quantidade solicitada maior do que o estoque disponível',
+                        'estoque_disponivel' => (int) $doce->Quantidade,
+                    ];
+                }
+
+                
+                $doce->Quantidade = (int) $doce->Quantidade - $quantidade;
+                $doce->save();
+
+                
+                if ((int) $doce->Quantidade <= 0) {
+                    $doce->delete();
+                }
+
+                LimparCacheDoces::dispatch(null, null);
+
+                $trackingCode = strtoupper(Str::random(10));
+
+
+
+                $total = ((int) $doce->Preco) * $quantidade;
+
+                $compra = CompraModel::create([
+                    'user_id' => $usuario->id,
+                    'doce_id' => $doce->id,
+                    'quantidade' => $quantidade,
+                    'total' => $total,
+                    'tracking_status' => 'PREPARANDO',
+                    'tracking_code' => $trackingCode,
+                ]);
+
+                return [
+                    'ok' => true,
+                    'compra' => $compra,
+                    'tracking' => [
+                        'status' => $compra->tracking_status,
+                        'codigo' => $compra->tracking_code,
+                    ],
+                ];
+            });
+
+            if (!$resultado['ok']) {
+                return response()->json([
+                    'erro' => 's',
+                    'mensagem' => $resultado['message'],
+                    'estoque_disponivel' => $resultado['estoque_disponivel'] ?? null,
+                ], $resultado['status']);
+            }
+
+            return response()->json([
+                'erro' => 'n',
+                'mensagem' => 'Compra registrada com sucesso!',
+                'tracking' => $resultado['tracking'],
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'erro' => 's',
+                'mensagem' => 'Erro ao processar compra: ' . $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function listar_carrinho(Request $request)
+    {
+        $usuario = $request->attributes->get('usuario');
+
+        $compras = CompraModel::where('user_id', $usuario->id)
+            ->orderByDesc('id')
+            ->get()
+            ->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'doce_id' => $c->doce_id,
+                    'quantidade' => $c->quantidade,
+                    'doce_nome' => optional(DoceModel::where('id', $c->doce_id)->first())->Nome,
+
+                    'status' => $c->tracking_status,
+                    'tracking' => [
+                        'codigo' => $c->tracking_code,
+                    ],
+                ];
+            });
+
+        return response()->json([
+            'erro' => 'n',
+            'compras' => $compras,
+        ], 200);
+    }
+
+    public function avancar_compra(Request $request, int $id)
+    {
+        $usuario = $request->attributes->get('usuario');
+
+        $compra = CompraModel::where('id', $id)->where('user_id', $usuario->id)->first();
+        if (!$compra) {
+            return response()->json(['erro' => 's', 'mensagem' => 'Compra não encontrada'], 404);
+        }
+
+        $etapas = ['PREPARANDO', 'SAIU_PARA_ENTREGA', 'CHEGOU', 'FINALIZADA'];
+        $idx = array_search($compra->tracking_status, $etapas, true);
+        $novoIdx = $idx === false ? 0 : min($idx + 1, count($etapas) - 1);
+
+        $compra->tracking_status = $etapas[$novoIdx];
+        $compra->save();
+
+        
+        // Ao finalizar, mantém tudo consistente com o estoque já reduzido na compra.
+        // (Demo: só organiza a "visão"; não mexe mais no estoque aqui.)
+
+        return response()->json([
+            'erro' => 'n',
+            'mensagem' => 'Etapa avançada (demo).',
+            'status' => $compra->tracking_status,
+        ], 200);
+
+    }
 }
+

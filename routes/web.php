@@ -72,4 +72,16 @@ Route::middleware(auth_api::class)->group(function () {
 
 });
 
+Route::get('/carrinho', function () {
+    $token = request()->cookie('token');
+    $userId = request()->cookie('user_id');
+
+    // deixa livre: carrinho pode abrir, e o front decide se consegue carregar as compras
+
+
+
+    return view('carrinho');
+})->name('carrinho');
+
+
 require __DIR__.'/auth.php';

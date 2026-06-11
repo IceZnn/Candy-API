@@ -194,11 +194,41 @@
             transition: transform .25s, box-shadow .25s;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        .card:hover {
+        .card:not(.esgotado):hover {
             transform: translateY(-5px);
             box-shadow: 0 16px 36px rgba(74,0,18,0.12);
+        }
+
+        /* ── Esgotado ── */
+        .card.esgotado {
+            opacity: 0.72;
+            filter: grayscale(35%);
+        }
+
+        .card.esgotado .card-thumb {
+            background: linear-gradient(135deg, #6b6b6b 0%, #9a9a9a 100%);
+        }
+
+        .badge-esgotado {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #dc2626;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(220,38,38,0.35);
         }
 
         .card-thumb {
@@ -319,6 +349,18 @@
         .btn-ver:hover {
             background: var(--vinho-claro);
             transform: translateY(-1px);
+        }
+
+        /* Botão bloqueado para esgotado */
+        .btn-ver.bloqueado {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-ver.bloqueado:hover {
+            transform: none;
         }
 
         .btn-editar, .btn-deletar {
@@ -475,6 +517,9 @@
             <a href="/doces">Doces</a>
             <a href="/Sobre">Sobre</a>
         </div>
+        <a href="/carrinho" aria-label="Carrinho">
+            <i class="fas fa-shopping-cart nav-user"></i>
+        </a>
         <a href="/Perfil">
             <i class="fas fa-user-circle nav-user"></i>
         </a>
@@ -536,6 +581,11 @@ $(document).ready(function () {
     const userId   = parseInt($.cookie("user_id"));
     let todosDoces = [];
 
+    function eEsgotado(d) {
+        // Considera esgotado se Estoque existir e for 0
+        return d.Quantidade !== undefined && d.Quantidade !== null && parseInt(d.Quantidade) === 0;
+    }
+
     function renderizar(doces) {
         if (doces.length === 0) {
             $('#conteudo').html(`
@@ -548,21 +598,46 @@ $(document).ready(function () {
         }
         let html = '<div class="grid">';
         doces.forEach(function (d) {
-            const eDono = !isNaN(userId) && parseInt(d.user_id) === userId;
+            const eDono    = !isNaN(userId) && parseInt(d.user_id) === userId;
+            const esgotado = eEsgotado(d);
+
+            const badgeEsgotado = esgotado
+                ? `<div class="badge-esgotado"><i class="fas fa-ban"></i> Esgotado</div>`
+                : '';
+
+            const qtdBadge = !esgotado && d.Quantidade !== undefined && d.Quantidade !== null
+                ? `<span class="qtd"><i class="fas fa-box"></i> ${d.Quantidade} un.</span>`
+                : '';
+
             const badgeDono = eDono
                 ? `<div class="badge-dono"><i class="fas fa-crown"></i> Meu doce</div>`
                 : '';
+
             const btnEditar = (eDono && token)
                 ? `<a class="btn-editar" href="/editar/${d.id}?token=${token}" title="Editar"><i class="fas fa-pen"></i></a>`
                 : '';
+
             const btnDeletar = (eDono && token)
                 ? `<a class="btn-deletar" href="/deletar/${d.id}?token=${token}" title="Deletar"><i class="fas fa-trash"></i></a>`
                 : '';
-            const btnVer = token
-                ? `<a class="btn-ver" href="/doce/${d.id}?token=${token}"><i class="fas fa-eye"></i> Ver detalhes</a>`
-                : `<span class="btn-ver" style="opacity:.5;cursor:default;background:#ccc"><i class="fas fa-lock"></i> Faça login</span>`;
+
+            let btnVer;
+            if (esgotado) {
+                // Esgotado: botão desabilitado para todos (exceto dono, que ainda pode ver)
+                if (eDono && token) {
+                    btnVer = `<a class="btn-ver" href="/doce/${d.id}?token=${token}"><i class="fas fa-eye"></i> Ver detalhes</a>`;
+                } else {
+                    btnVer = `<span class="btn-ver bloqueado"><i class="fas fa-ban"></i> Esgotado</span>`;
+                }
+            } else if (token) {
+                btnVer = `<a class="btn-ver" href="/doce/${d.id}?token=${token}"><i class="fas fa-eye"></i> Ver detalhes</a>`;
+            } else {
+                btnVer = `<span class="btn-ver" style="opacity:.5;cursor:default;background:#ccc"><i class="fas fa-lock"></i> Faça login</span>`;
+            }
+
             html += `
-                <div class="card" data-nome="${d.Nome.toLowerCase()}" data-sabor="${d.Sabor.toLowerCase()}">
+                <div class="card${esgotado ? ' esgotado' : ''}" data-nome="${d.Nome.toLowerCase()}" data-sabor="${d.Sabor.toLowerCase()}">
+                    ${badgeEsgotado}
                     <div class="card-thumb"></div>
                     <div class="card-body">
                         ${badgeDono}
@@ -571,7 +646,7 @@ $(document).ready(function () {
                         <div class="descricao">${d.Descricao || 'Sem descrição'}</div>
                         <div class="card-meta">
                             <span class="preco">R$ ${parseFloat(d.Preco).toFixed(2)}</span>
-                            <span class="qtd">${d.Quantidade} un.</span>
+                            ${qtdBadge}
                         </div>
                         <div class="alergicos">
                             <i class="fas fa-exclamation-triangle"></i>

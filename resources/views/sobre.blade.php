@@ -498,6 +498,9 @@
             <a href="/Sobre">Sobre</a>
             
         </div>
+        <a href="/carrinho" aria-label="Carrinho">
+            <i class="fas fa-shopping-cart nav-user"></i>
+        </a>
         <a href="/Perfil">
             <i class="fas fa-user-circle nav-user"></i>
         </a>

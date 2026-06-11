@@ -4,7 +4,7 @@
     <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVERSWEET - Detalhes do Doce</title>
+    <title>EVERSWEET</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -270,7 +270,11 @@
             <a href="/Dashboard">Dashboard</a>
             <a href="/doces">Doces</a>
             <a href="/Sobre">Sobre</a>
+
         </div>
+        <a href="/carrinho" aria-label="Carrinho">
+            <i class="fas fa-shopping-cart nav-user"></i>
+        </a>
         <a href="/Perfil">
             <i class="fas fa-user-circle nav-user"></i>
         </a>
@@ -343,6 +347,29 @@
                     </div>
                 </div>
 
+                <div class="mt-4 p-3 p-md-4" style="background: rgba(255, 179, 193, 0.10); border: 1px solid rgba(255, 179, 193, 0.45); border-radius: 18px;">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-6">
+                            <div class="info-label"><i class="fas fa-shopping-cart me-1"></i> Comprar</div>
+                            <div class="info-value">Quantidade disponível: <strong>{{ $doce->Quantidade ?? 0 }}</strong></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" style="margin:0; font-size:11px;">Quantidade</label>
+                            <input id="comprarQuantidade" type="number" min="1" class="form-control" value="1" style="border-radius:14px;" />
+                        </div>
+                        <div class="col-md-3 d-grid">
+                            <button id="btnComprar" class="btn-voltar" style="justify-content:center; width:100%;">
+                                <i class="fas fa-bag-shopping"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 p-3" style="background: rgba(255,179,193,0.08); border: 1px dashed rgba(255,179,193,0.8); border-radius: 16px;">
+                    <div class="info-label" style="margin-bottom:8px;">Pagamento</div>
+                    <div class="info-value">Somente PIX</div>
+                </div>
+
                 <div class="d-flex justify-content-center gap-3 mt-5">
                     <a href="/doces" class="btn-voltar">
                         <i class="fas fa-arrow-left"></i> Voltar para Catálogo
@@ -353,6 +380,89 @@
                     </a>
                     @endif
                 </div>
+
+                <script>
+                    $(document).ready(function () {
+                        const token = $.cookie('token');
+                        const doceId = {{ (int) ($doce->id ?? 0) }};
+
+                        function mostrarModalPix(tracking) {
+                            const codigo = tracking && tracking.codigo ? tracking.codigo : '-';
+
+                            Swal.fire({
+                                title: 'Pagamento PIX',
+                                html: `
+                                    <div style="text-align:left;">
+                                        <p><b>Código PIX:</b> ${codigo}</p>
+                                        <p class="text-muted" style="font-size:13px;">Escaneie o QR Code abaixo.</p>
+                                        <div style="display:flex; justify-content:center; margin: 14px 0;">
+                                            <img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+                                        </div>
+                                        <p class="text-muted" style="font-size:13px;"></p>
+                                    </div>
+                                `,
+                                icon: 'info',
+                                showCancelButton: false,
+                                confirmButtonText: 'Prosseguir',
+                                confirmButtonColor: '#4a0012'
+                            }).then(() => {
+                                window.location.href = '/carrinho';
+                            });
+                        }
+
+                        $('#btnComprar').on('click', function () {
+                            if (!token) {
+                                Swal.fire({ title: 'Faça login', text: 'Para comprar, é necessário estar logado.', icon: 'warning', confirmButtonColor: '#4a0012' });
+                                return;
+                            }
+
+                            const qtd = parseInt($('#comprarQuantidade').val(), 10);
+                            if (!qtd || qtd < 1) {
+                                Swal.fire({ title: 'Quantidade inválida', text: 'Informe uma quantidade maior ou igual a 1.', icon: 'error', confirmButtonColor: '#4a0012' });
+                                return;
+                            }
+
+                            const $btn = $('#btnComprar');
+                            $btn.prop('disabled', true).css('opacity', 0.7);
+
+                            Swal.fire({
+                                title: 'Processando...',
+                                text: 'Registrando sua compra.',
+                                allowOutsideClick: false,
+                                didOpen: () => { Swal.showLoading(); }
+                            });
+
+                            $.ajax({
+                                url: `/api/comprar/${doceId}?token=${token}`,
+                                method: 'POST',
+                                data: {
+                                    quantidade: qtd
+                                },
+                                success: function (res) {
+                                    Swal.close();
+
+                                    Swal.fire({
+                                        title: 'Compra registrada!',
+                                        text: res.mensagem || 'Sucesso!',
+                                        icon: 'success',
+                                        confirmButtonColor: '#4a0012'
+                                    }).then(() => {
+                                        mostrarModalPix(res.tracking || {});
+                                    });
+                                },
+                                error: function (err) {
+                                    Swal.close();
+                                    const r = err.responseJSON || {};
+                                    const msg = r.mensagem || 'Erro ao realizar compra.';
+                                    Swal.fire({ title: 'Erro!', text: msg, icon: 'error', confirmButtonColor: '#4a0012' });
+                                },
+                                complete: function () {
+                                    $btn.prop('disabled', false).css('opacity', 1);
+                                }
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

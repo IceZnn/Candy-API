@@ -36,7 +36,15 @@ Route::post( '/salva_doce',[TestController::class,'salva_doce']);
 
 Route::get( '/exibe_doce/{id}',[TestController::class,'exibe_doce']);
 
+Route::post('/comprar/{id}', [TestController::class, 'comprar_doce']);
+
+
+Route::get('/carrinho', [TestController::class, 'listar_carrinho']);
+
+Route::post('/compras/{id}/avancar', [TestController::class, 'avancar_compra']);
+
 Route::delete('/deleta_doce/{id}', [TestController::class, 'deleta_doce']);
+
 
 Route::match(['post', 'put'], '/atualiza_doce/{id}', [TestController::class, 'atualiza_doce']);
 
