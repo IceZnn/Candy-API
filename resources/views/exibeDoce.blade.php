@@ -291,9 +291,14 @@
         <div class="col-lg-8">
             <div class="main-card p-4 p-md-5">
                 <div class="text-center mb-4">
-                    <div class="card-thumb" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--vinho), var(--vinho-claro)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                        <i class="fas fa-cookie-bite" style="font-size: 36px; color: var(--rosa-suave);"></i>
+                    <div class="card-thumb" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--vinho), var(--vinho-claro)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; overflow:hidden;">
+                        @if(!empty($doce->imagem))
+                            <img src="/storage/{{ $doce->imagem }}" alt="{{ $doce->Nome }}" style="width:100%;height:100%;object-fit:cover;" />
+                        @else
+                            <i class="fas fa-cookie-bite" style="font-size: 36px; color: var(--rosa-suave);"></i>
+                        @endif
                     </div>
+
                     <h2 class="display-6 fw-bold" style="font-family: 'Playfair Display', serif; color: var(--vinho);">{{ $doce->Nome ?? 'Sem nome' }}</h2>
                     <span class="badge-estoque mt-3 d-inline-block">
                         <i class="fas fa-box me-2"></i>{{ $doce->Quantidade ?? 0 }} unidades em estoque
@@ -395,8 +400,8 @@
                                     <div style="text-align:left;">
                                         <p><b>Código PIX:</b> ${codigo}</p>
                                         <p class="text-muted" style="font-size:13px;">Escaneie o QR Code abaixo.</p>
-                                        <div style="display:flex; justify-content:center; margin: 14px 0;">
-                                            <img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+<div style="display:flex; justify-content:center; margin: 14px 0;">
+                                            <img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=4XKGfziuw5c&list=RD4XKGfziuw5c&start_radio=1" />
                                         </div>
                                         <p class="text-muted" style="font-size:13px;"></p>
                                     </div>

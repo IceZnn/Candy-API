@@ -162,8 +162,7 @@
             return;
         }
 
-        // não esconder a lista para não dar sensação de "F5" durante atualizações
-        // mantém o conteúdo atual enquanto carrega em background
+        
         $('#msg').html('Atualizando...');
 
         $.ajax({
@@ -205,7 +204,7 @@
                 }
 
 
-                // lista do carrinho (parte de cima) APENAS não finalizados
+                
                 let html = '';
                 const pendentes = compras.filter(c => (c.status || '').toUpperCase() !== 'FINALIZADA');
                 pendentes.forEach(c => {
@@ -255,7 +254,7 @@
             html: `
                 <div style="text-align:left;">
                     <p><b>Código:</b> ${codigo || '-'}</p>
-                    <p><b>Link:</b> <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Abrir tracking</a></p>
+<p><b>Link:</b> <a href="https://www.youtube.com/watch?v=4XKGfziuw5c&list=RD4XKGfziuw5c&start_radio=1" target="_blank">Abrir tracking</a></p>
                     <p class="text-muted" style="font-size:13px;"> </p>
                 </div>
             `,
@@ -316,7 +315,7 @@
             }
 
             
-            const intervaloMs = 30000;
+            const intervaloMs = 6900;
 
             Swal.fire({ title: 'Auto ativado', text: `Avançando automaticamente a cada ${Math.round(intervaloMs/1000)}s .`, icon: 'success', confirmButtonColor: '#4a0012' });
 

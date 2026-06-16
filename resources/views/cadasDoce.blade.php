@@ -249,7 +249,7 @@
             Informações do Doce
         </div>
 
-        <form id="doceForm">
+        <form id="doceForm" enctype="multipart/form-data">
             <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label">Nome</label>
@@ -279,7 +279,14 @@
                     <label class="form-label">Descrição</label>
                     <textarea class="form-control" id="inputDescricao" name="Descricao" placeholder="Breve descrição do doce"></textarea>
                 </div>
+
+                <div class="col-12">
+                    <label class="form-label">Imagem do Doce</label>
+                    <input type="file" class="form-control" id="inputImagem" name="imagem" accept="image/*" />
+                    <small class="text-muted">Envie uma imagem (JPG/PNG/WEBP).</small>
+                </div>
             </div>
+
 
             <button type="button" class="btn-save" id="salvaBotao">
                 <i class="fas fa-save"></i> Salvar no Banco de Dados

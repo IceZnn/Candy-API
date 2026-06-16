@@ -233,19 +233,29 @@
 
         .card-thumb {
             background: linear-gradient(135deg, var(--vinho) 0%, var(--vinho-claro) 100%);
-            height: 140px;
+            height: 220px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 56px;
             position: relative;
+            overflow: hidden;
         }
 
-        .card-thumb::after {
+
+.card-thumb::after {
             content: '🥀';
             font-size: 64px;
             opacity: 0.2;
+            transition: opacity .2s;
+            pointer-events: none;
         }
+
+        .card-thumb.has-imagem::after {
+            display: none;
+        }
+
+
 
         .card-body {
             padding: 24px;
@@ -351,7 +361,7 @@
             transform: translateY(-1px);
         }
 
-        /* Botão bloqueado para esgotado */
+        
         .btn-ver.bloqueado {
             background: #e5e7eb;
             color: #9ca3af;
@@ -582,7 +592,7 @@ $(document).ready(function () {
     let todosDoces = [];
 
     function eEsgotado(d) {
-        // Considera esgotado se Estoque existir e for 0
+        
         return d.Quantidade !== undefined && d.Quantidade !== null && parseInt(d.Quantidade) === 0;
     }
 
@@ -623,7 +633,7 @@ $(document).ready(function () {
 
             let btnVer;
             if (esgotado) {
-                // Esgotado: botão desabilitado para todos (exceto dono, que ainda pode ver)
+                
                 if (eDono && token) {
                     btnVer = `<a class="btn-ver" href="/doce/${d.id}?token=${token}"><i class="fas fa-eye"></i> Ver detalhes</a>`;
                 } else {
@@ -638,7 +648,11 @@ $(document).ready(function () {
             html += `
                 <div class="card${esgotado ? ' esgotado' : ''}" data-nome="${d.Nome.toLowerCase()}" data-sabor="${d.Sabor.toLowerCase()}">
                     ${badgeEsgotado}
-                    <div class="card-thumb"></div>
+                    <div class="card-thumb${d.imagem ? ' has-imagem' : ''}">
+                        ${d.imagem ? `<img src="/storage/${d.imagem}" alt="${d.Nome}" style="width:100%;height:100%;object-fit:cover;" />` : ''}
+                    </div>
+
+
                     <div class="card-body">
                         ${badgeDono}
                         <h3>${d.Nome}</h3>

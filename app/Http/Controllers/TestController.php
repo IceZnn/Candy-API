@@ -9,6 +9,8 @@ use App\Models\CompraModel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class TestController extends Controller
 {
@@ -40,10 +42,16 @@ class TestController extends Controller
             'Alergicos'    => 'required',
             'Quantidade'   => 'required|integer|min:0',
             'Descricao'    => 'required',
+            'imagem'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         try {
             $usuario = $request->attributes->get('usuario');
+
+            $imagemPath = null;
+            if ($request->hasFile('imagem')) {
+                $imagemPath = $request->file('imagem')->store('imagens_doces', 'public');
+            }
 
             DoceModel::create([
                 'Nome'         => $request->Nome,
@@ -53,6 +61,7 @@ class TestController extends Controller
                 'Alergicos'    => $request->Alergicos,
                 'Quantidade'   => $request->Quantidade,
                 'Descricao'    => $request->Descricao,
+                'imagem'       => $imagemPath,
                 'user_id'      => $usuario->id,
             ]);
 
@@ -64,6 +73,7 @@ class TestController extends Controller
             return redirect()->back()->with('erro', 'Erro ao cadastrar doce: ' . $th->getMessage());
         }
     }
+
 
     public function exibe_doce(Request $request, $id)
     {
@@ -109,6 +119,7 @@ class TestController extends Controller
             'Alergicos'    => 'required',
             'Quantidade'   => 'required|integer|min:0',
             'Descricao'    => 'required',
+            'imagem'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         try {
@@ -118,6 +129,14 @@ class TestController extends Controller
                 ->where('user_id', $usuario->id)
                 ->firstOrFail();
 
+            $imagemPath = $doce->imagem;
+            if ($request->hasFile('imagem')) {
+                if (!empty($doce->imagem) && Storage::disk('public')->exists($doce->imagem)) {
+                    Storage::disk('public')->delete($doce->imagem);
+                }
+                $imagemPath = $request->file('imagem')->store('imagens_doces', 'public');
+            }
+
             $doce->update([
                 'Nome'         => $request->Nome,
                 'Sabor'        => $request->Sabor,
@@ -126,6 +145,7 @@ class TestController extends Controller
                 'Alergicos'    => $request->Alergicos,
                 'Quantidade'   => $request->Quantidade,
                 'Descricao'    => $request->Descricao,
+                'imagem'       => $imagemPath,
             ]);
 
             LimparCacheDoces::dispatch($id, $usuario->id);
@@ -136,6 +156,7 @@ class TestController extends Controller
             return redirect()->back()->with('erro', 'Erro ao atualizar doce: ' . $th->getMessage());
         }
     }
+
 
     public function todos_doces()
     {
